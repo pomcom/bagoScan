@@ -1,22 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
+	"github.com/pomcom/bagoScan/tools"
 	"github.com/pomcom/bagoScan/tools/testssl"
+	"github.com/pomcom/bagoScan/utils"
 )
 
 func main() {
+	var tools []tools.Tool
+	fileHandler := utils.Filehandler{}
 
-	log.Println("Starting ...")
+	tools = append(tools, testssl.Testssl{})
 
-	t := testssl.Testssl{}
-	_, err := t.Execute("pomcom.digital")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	log.Println("Finished. The raw output was written to /output/raw.")
+	r := utils.Runner{Tools: tools, Filehandler: fileHandler}
+	r.Run()
 }

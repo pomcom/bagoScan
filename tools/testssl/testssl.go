@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
-
-	"github.com/pomcom/bagoScan/utils"
 )
 
 type Testssl struct{}
@@ -19,13 +17,14 @@ func (t Testssl) Execute(flags string) (string, error) {
 
 	fmt.Println(output)
 
-	fileHandler := utils.Filehandler{}
-	// move filehander - return
-	err = fileHandler.WriteToFile("testssl_output.txt", output)
 	if err != nil {
 		return output, fmt.Errorf("Error in testssl module writing output to file: %s", err)
 	}
 	return output, nil
+}
+
+func (t Testssl) Name() string {
+	return "testssl"
 }
 
 func scan(target string) (string, error) {
