@@ -11,7 +11,7 @@ To use `bagoScan`, you'll need to have `Go` installed on your system.
 Clone the repository and navigate to the root directory.
 
 ```
-git clone https://github.com/yourusername/bagoScan.git
+git clone https://github.com/pomcom/bagoScan.git
 cd bagoScan
 ```
 
