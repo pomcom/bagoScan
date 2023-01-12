@@ -18,4 +18,5 @@ func main() {
 		return
 	}
 
+	log.Println("Finished. The raw output was written to /output/raw.")
 }
