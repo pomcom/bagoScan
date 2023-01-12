@@ -10,7 +10,6 @@ import (
 func main() {
 
 	log.Println("Starting ...")
-	log.Println("Starting ...")
 
 	t := &testssl.Testssl{}
 	_, err := t.Execute("pomcom.digital")

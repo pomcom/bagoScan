@@ -2,6 +2,7 @@ package testssl
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 )
 
@@ -18,8 +19,10 @@ func (n *Testssl) Execute(flags string) (string, error) {
 }
 
 func scan(target string) (string, error) {
+	log.Println("Running testssl.sh on ", target)
 	cmd := exec.Command("testssl.sh", target)
 	out, err := cmd.Output()
+	log.Println("testssl.sh finished.")
 	if err != nil {
 		return "", fmt.Errorf("Executing testssl failed with error: %s", err)
 	}
