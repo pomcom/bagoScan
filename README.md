@@ -41,4 +41,4 @@ Once you've done this, you can add the new tool to the `Runner` struct in the `u
 
 ## License
 
-`bagoScan` is released under the [MIT License](https://github.com/pomcom/bagoScan/blob/main/LICENSE)
+`bagoScan` is released under the [MIT License](https://github.com/pomcom/bagoScan/blob/main/LICENSE).
