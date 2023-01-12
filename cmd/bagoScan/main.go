@@ -12,6 +12,6 @@ func main() {
 
 	tools = append(tools, testssl.Testssl{})
 
-	r := utils.Runner{Tools: tools, Filehandler: fileHandler}
-	r.Run()
+	runner := utils.Runner{Tools: tools, Filehandler: fileHandler}
+	runner.Run()
 }
