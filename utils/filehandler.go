@@ -10,7 +10,7 @@ type Filehandler struct {
 	outputDir string
 }
 
-func (handler *Filehandler) WriteToFile(filename string, output string) error {
+func (handler Filehandler) WriteToFile(filename string, output string) error {
 	handler.outputDir = "output/raw"
 
 	// create out/raw if it does not exist

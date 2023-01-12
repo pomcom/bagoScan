@@ -11,7 +11,7 @@ func main() {
 
 	log.Println("Starting ...")
 
-	t := &testssl.Testssl{}
+	t := testssl.Testssl{}
 	_, err := t.Execute("pomcom.digital")
 	if err != nil {
 		fmt.Println(err)

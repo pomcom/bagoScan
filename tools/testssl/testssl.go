@@ -10,7 +10,7 @@ import (
 
 type Testssl struct{}
 
-func (n *Testssl) Execute(flags string) (string, error) {
+func (t Testssl) Execute(flags string) (string, error) {
 
 	output, err := scan(flags)
 	if err != nil {
@@ -19,7 +19,8 @@ func (n *Testssl) Execute(flags string) (string, error) {
 
 	fmt.Println(output)
 
-	fileHandler := &utils.Filehandler{}
+	fileHandler := utils.Filehandler{}
+	// move filehander - return
 	err = fileHandler.WriteToFile("testssl_output.txt", output)
 	if err != nil {
 		return output, fmt.Errorf("Error in testssl module writing output to file: %s", err)
