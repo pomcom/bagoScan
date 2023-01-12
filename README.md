@@ -27,7 +27,7 @@ You can run `bagoScan` using the provided `Makefile`.
 
 ## Output
 
-The output of the scan will be saved in the output/raw directory,
+The output of the scan will be saved in the `output/raw` directory,
 with the filename in the format `TOOLNAME-OUTPUT.txt`.
 The output file will also include a timestamp in the format `YYYY-MM-DD-HH-MM-SS`.
 
