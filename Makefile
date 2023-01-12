@@ -8,6 +8,6 @@ build:
 	go build -o $(BINARY) cmd/bagoScan/main.go
 
 clean:
-	rm -r $(BINARY)
+	if [ -f $(BINARY) ]; then rm $(BINARY); fi
 	rm -rf $(OUTPUT_DIR)
 
