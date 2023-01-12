@@ -2,10 +2,10 @@ BINARY=bagoScan
 OUTPUT_DIR=output
 
 run:
-	go run cmd/bagoScan/main.go
+	go run main.go
 
 build:
-	go build -o $(BINARY) cmd/bagoScan/main.go
+	go build -o $(BINARY) main.go
 
 clean:
 	if [ -f $(BINARY) ]; then rm $(BINARY); fi
