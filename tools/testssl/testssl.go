@@ -22,9 +22,9 @@ func (n *Testssl) Execute(flags string) (string, error) {
 	fileHandler := &utils.Filehandler{}
 	err = fileHandler.WriteToFile("testssl_output.txt", output)
 	if err != nil {
-		return "", fmt.Errorf("Error in testssl module writing output to file: %s", err)
+		return output, fmt.Errorf("Error in testssl module writing output to file: %s", err)
 	}
-	return "", nil
+	return output, nil
 }
 
 func scan(target string) (string, error) {
