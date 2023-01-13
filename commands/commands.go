@@ -10,8 +10,8 @@ var target string
 var (
 	rootCmd = &cobra.Command{
 		Use:           "bagoScan",
-		Short:         "bagoScan automatates some pentesting steps - work in progress.",
-		Long:          `bagoScan currently only checks for SSL configuration via testssl.sh.`,
+		Short:         "bagoScan runs mulitple security scans on a target.",
+		Long:          `bagoScan runs multiple modular security scans on a given target. Work in Progress.`,
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}

@@ -28,7 +28,7 @@ func (t Testssl) Name() string {
 }
 
 func scan(target string) (string, error) {
-	log.Println("Running testssl.sh on ", target)
+	log.Println("Running testssl.sh on", target)
 	cmd := exec.Command("testssl.sh", target)
 	out, err := cmd.Output()
 	log.Println("testssl.sh finished.")
