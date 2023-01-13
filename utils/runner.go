@@ -12,14 +12,14 @@ type Runner struct {
 	Filehandler Filehandler
 }
 
-func (r Runner) Run() {
+func (r Runner) Run(target string) {
 	var wg sync.WaitGroup
 	wg.Add(len(r.Tools))
 
 	for _, t := range r.Tools {
 		go func(tool tools.Tool) {
 			defer wg.Done()
-			output, err := tool.Execute("pomcom.digital")
+			output, err := tool.Execute(target)
 			if err != nil {
 				fmt.Println("Error in runner:", err)
 				return

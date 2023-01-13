@@ -18,8 +18,9 @@ var (
 )
 
 func init() {
-	rootCmd.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
-	rootCmd.MarkFlagRequired("target")
+	scan.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	scan.MarkFlagRequired("target")
+	rootCmd.AddCommand(scan)
 }
 
 func Execute() error {

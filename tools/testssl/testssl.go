@@ -8,9 +8,9 @@ import (
 
 type Testssl struct{}
 
-func (t Testssl) Execute(flags string) (string, error) {
+func (t Testssl) Execute(target string) (string, error) {
 
-	output, err := scan(flags)
+	output, err := scan(target)
 	if err != nil {
 		return "", err
 	}
