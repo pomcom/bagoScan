@@ -1,17 +1,23 @@
 package main
 
 import (
-	"github.com/pomcom/bagoScan/tools"
-	"github.com/pomcom/bagoScan/tools/testssl"
-	"github.com/pomcom/bagoScan/utils"
+	"fmt"
+
+	"github.com/pomcom/bagoScan/commands"
 )
 
 func main() {
-	var tools []tools.Tool
-	fileHandler := utils.Filehandler{}
+	// var tools []tools.Tool
+	// fileHandler := utils.Filehandler{}
+	//
+	// tools = append(tools, testssl.Testssl{})
+	//
+	// runner := utils.Runner{Tools: tools, Filehandler: fileHandler}
+	// runner.Run()
 
-	tools = append(tools, testssl.Testssl{})
+	err := commands.Execute()
+	if err != nil && err.Error() != "" {
+		fmt.Println(err)
+	}
 
-	runner := utils.Runner{Tools: tools, Filehandler: fileHandler}
-	runner.Run()
 }
