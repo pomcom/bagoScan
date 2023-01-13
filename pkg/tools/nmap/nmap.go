@@ -29,7 +29,7 @@ func (n Nmap) Name() string {
 
 func scan(target string) (string, error) {
 	log.Println("Running nmap on", target)
-	cmd := exec.Command("nmap", target)
+	cmd := exec.Command("nmap", "-vvv", target)
 	out, err := cmd.Output()
 	log.Println("nmap finished.")
 	if err != nil {

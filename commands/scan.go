@@ -1,11 +1,7 @@
 package commands
 
 import (
-	"fmt"
-
 	"github.com/pomcom/bagoScan/pkg/config"
-	"github.com/pomcom/bagoScan/pkg/tools/nmap"
-	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	"github.com/pomcom/bagoScan/pkg/utils"
 	"github.com/spf13/cobra"
 )
@@ -24,16 +20,21 @@ func startScan(cmd *cobra.Command, args []string) {
 
 	print("******************")
 
-	cfg := config.NewConfigHandler("config.yml")
-	tools := cfg.GetTools()
-	for _, tool := range tools {
-		fmt.Println(tool)
-	}
-
 	print("************************")
 
 	runner := utils.NewRunner()
-	runner.AddTool(testssl.Testssl{})
-	runner.AddTool(nmap.Nmap{})
+
+	cfg := config.NewConfigHandler("config.yml")
+	tools := cfg.GetTools()
+	for _, tool := range tools {
+		runner.AddTool(tool)
+	}
+
+	// for _, tool := range utils.GetSupportedTools() {
+	// 	runner.AddTool(tool)
+	// }
+
+	// runner.AddTool(testssl.Testssl{})
+	// runner.AddTool(nmap.Nmap{})
 	runner.Run(target)
 }
