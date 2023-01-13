@@ -4,29 +4,19 @@ import (
 	"github.com/spf13/viper"
 )
 
-type ConfigReader struct {
-	configPath string
-	viper      viper.Viper
+type ConfigHandler struct {
+	viper *viper.Viper
 }
 
-func NewConfigReader(configPath string) ConfigReader {
+func NewConfigHandler(configPath string) *ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(configPath)
-	return ConfigReader{
-		configPath: configPath,
-		viper:      *v,
+	v.ReadInConfig()
+	return &ConfigHandler{
+		viper: v,
 	}
 }
 
-func (c ConfigReader) ReadConfig() error {
-	if err := c.viper.ReadInConfig(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (c ConfigReader) GetTools() []string {
-	println("Get Tools did get called!!!")
+func (c *ConfigHandler) GetTools() []string {
 	return c.viper.GetStringSlice("tools")
-
 }

@@ -22,19 +22,13 @@ var (
 func startScan(cmd *cobra.Command, args []string) {
 	target, _ := cmd.Flags().GetString("target")
 
-	config := config.NewConfigReader("config.yml")
-	err := config.ReadConfig()
-	if err != nil {
-		fmt.Println("Error reading config in startScan:", err)
-		return
+	print("******************")
+
+	cfg := config.NewConfigHandler("config.yml")
+	tools := cfg.GetTools()
+	for _, tool := range tools {
+		fmt.Println(tool)
 	}
-
-	tools := config.GetTools()
-
-	print("************************")
-	print("tools in config:")
-
-	fmt.Printf("%v", tools)
 
 	print("************************")
 
