@@ -17,3 +17,7 @@ func ToolStartLog(tool string, target string) {
 func ToolFinishedLog(tool string, target string) {
 	Logger.Info("Finished", zap.String("tool", tool), zap.String("on target", target))
 }
+
+func ToolFailed(tool string, target string, err error) {
+	Logger.Error("Executing failed:", zap.String("tool", tool), zap.String("on target", target), zap.Error(err))
+}

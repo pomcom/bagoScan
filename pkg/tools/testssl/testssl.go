@@ -5,7 +5,6 @@ import (
 	"os/exec"
 
 	"github.com/pomcom/bagoScan/pkg/utils"
-	"go.uber.org/zap"
 )
 
 type Testssl struct{}
@@ -39,8 +38,9 @@ func scan(target string) (string, error) {
 	out, err := cmd.Output()
 
 	utils.ToolFinishedLog(tool, target)
+
 	if err != nil {
-		utils.Logger.Error("Executing failed:", zap.String("tool", tool), zap.String("on target", target), zap.Error(err))
+		utils.ToolFailed(tool, target, err)
 		return "", err
 	}
 	return string(out), nil
