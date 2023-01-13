@@ -1,1 +1,5 @@
-{"level":"info","time":"2023-01-13T21:05:26+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-13T21:39:34+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-13T21:39:34+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-13T21:39:34+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-13T21:39:34+01:00","message":"Finished","tool":"nmap","on target":"pomcom.digital"}
+{"level":"error","time":"2023-01-13T21:39:34+01:00","message":"Executing failed:","tool":"nmap","on target":"pomcom.digital","error":"exec: \"nma\": executable file not found in $PATH"}
