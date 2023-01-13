@@ -5,6 +5,8 @@ import (
 	"sync"
 
 	"github.com/pomcom/bagoScan/tools"
+	"github.com/pomcom/bagoScan/tools/nmap"
+	"github.com/pomcom/bagoScan/tools/testssl"
 )
 
 type Runner struct {
@@ -28,4 +30,20 @@ func (r Runner) Run(target string) {
 		}(t)
 	}
 	wg.Wait()
+}
+
+func NewRunner(tools []tools.Tool, filehandler Filehandler) *Runner {
+	return &Runner{
+		Tools:       tools,
+		Filehandler: filehandler,
+	}
+}
+
+var runner *Runner
+
+func Init() {
+	runner = NewRunner([]tools.Tool{
+		testssl.Testssl{},
+		nmap.Nmap{},
+	}, Filehandler{})
 }

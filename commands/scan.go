@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/pomcom/bagoScan/tools"
+	"github.com/pomcom/bagoScan/tools/nmap"
 	"github.com/pomcom/bagoScan/tools/testssl"
 	"github.com/pomcom/bagoScan/utils"
 	"github.com/spf13/cobra"
@@ -19,10 +20,9 @@ var (
 func startScan(cmd *cobra.Command, args []string) {
 	target, _ := cmd.Flags().GetString("target")
 
-	var tools []tools.Tool
-	fileHandler := utils.Filehandler{}
-
-	tools = append(tools, testssl.Testssl{})
-	runner := utils.Runner{Tools: tools, Filehandler: fileHandler}
+	runner := utils.NewRunner([]tools.Tool{
+		testssl.Testssl{},
+		nmap.Nmap{},
+	}, utils.Filehandler{})
 	runner.Run(target)
 }
