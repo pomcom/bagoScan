@@ -8,15 +8,15 @@ type ConfigHandler struct {
 	viper *viper.Viper
 }
 
-func NewConfigHandler(configPath string) *ConfigHandler {
-	v := viper.New()
-	v.SetConfigFile(configPath)
-	v.ReadInConfig()
-	return &ConfigHandler{
-		viper: v,
+func NewConfigHandler(configPath string) ConfigHandler {
+	myViper := viper.New()
+	myViper.SetConfigFile(configPath)
+	myViper.ReadInConfig()
+	return ConfigHandler{
+		viper: myViper,
 	}
 }
 
-func (c *ConfigHandler) GetTools() []string {
+func (c ConfigHandler) GetTools() []string {
 	return c.viper.GetStringSlice("tools")
 }
