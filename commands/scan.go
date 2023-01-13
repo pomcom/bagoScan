@@ -11,7 +11,7 @@ var (
 	scan = &cobra.Command{
 		Use:   "scan",
 		Short: "Scans a target with all activated modules.",
-		Long:  `Scan currently only checks for SSL configuration via testssl.sh.`,
+		Long:  `Scan currently supports testssl and nmap`,
 		Run:   startScan,
 	}
 )

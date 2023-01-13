@@ -1,6 +1,5 @@
 package commands
 
-// root cmd - gets executed when no flags provided
 import (
 	"github.com/spf13/cobra"
 )
@@ -21,6 +20,10 @@ func init() {
 	scan.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
 	scan.MarkFlagRequired("target")
 	rootCmd.AddCommand(scan)
+
+	runNmap.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	runNmap.MarkFlagRequired("target")
+	rootCmd.AddCommand(runNmap)
 }
 
 func Execute() error {
