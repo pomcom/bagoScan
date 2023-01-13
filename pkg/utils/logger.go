@@ -1,5 +1,10 @@
 package utils
 
+/*
+ISO8601  -> "time":1673637527.6814306"
+RFC3339  -> "time":"2023-01-13T20:16:27+01:00"
+
+*/
 import (
 	"encoding/json"
 	"log"
@@ -18,7 +23,8 @@ var rawJSON = []byte(`{
         "messageKey": "message",
         "levelKey": "level",
         "levelEncoder": "lowercase",
-				"timeKey": "time"
+				"timeKey": "time",
+				"timeEncoder": "RFC3339"
     }
 }`)
 
