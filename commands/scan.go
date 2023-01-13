@@ -18,10 +18,6 @@ var (
 func startScan(cmd *cobra.Command, args []string) {
 	target, _ := cmd.Flags().GetString("target")
 
-	print("******************")
-
-	print("************************")
-
 	runner := utils.NewRunner()
 
 	cfg := config.NewConfigHandler("config.yml")
