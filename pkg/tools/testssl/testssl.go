@@ -2,11 +2,14 @@ package testssl
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
+
+	"github.com/pomcom/bagoScan/pkg/utils"
 )
 
 type Testssl struct{}
+
+var tool = "testssl.sh"
 
 func (t Testssl) Execute(target string) (string, error) {
 
@@ -24,16 +27,21 @@ func (t Testssl) Execute(target string) (string, error) {
 }
 
 func (t Testssl) Name() string {
-	return "testssl"
+	return tool
 }
 
 func scan(target string) (string, error) {
-	log.Println("Running testssl.sh on", target)
-	cmd := exec.Command("testssl.sh", target)
+
+	utils.ToolStartLog(tool, target)
+
+	cmd := exec.Command(tool, target)
 	out, err := cmd.Output()
-	log.Println("testssl.sh finished.")
+
+	utils.ToolFinishedLog(tool, target)
+
 	if err != nil {
-		return "", fmt.Errorf("Executing testssl failed with error: %s", err)
+		utils.ToolFailed(tool, target, err)
+		return "", err
 	}
 	return string(out), nil
 }
