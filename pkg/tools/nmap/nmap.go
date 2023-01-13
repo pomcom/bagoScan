@@ -2,11 +2,15 @@ package nmap
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
+
+	"github.com/pomcom/bagoScan/pkg/utils"
+	"go.uber.org/zap"
 )
 
 type Nmap struct{}
+
+var tool = "nmap"
 
 func (n Nmap) Execute(target string) (string, error) {
 
@@ -24,16 +28,21 @@ func (n Nmap) Execute(target string) (string, error) {
 }
 
 func (n Nmap) Name() string {
-	return "nmap"
+	return tool
 }
 
 func scan(target string) (string, error) {
-	log.Println("Running nmap on", target)
-	cmd := exec.Command("nmap", target)
+
+	utils.ToolStartLog(tool, target)
+
+	cmd := exec.Command(tool, target)
 	out, err := cmd.Output()
-	log.Println("nmap finished.")
+
+	utils.ToolFinishedLog(tool, target)
+
 	if err != nil {
-		return "", fmt.Errorf("Executing nmap failed with error: %s", err)
+		utils.Logger.Error("Executing failed:", zap.String("tool", tool), zap.String("on target", target), zap.Error(err))
+		return "", err
 	}
 	return string(out), nil
 }

@@ -11,7 +11,6 @@ Use `utils.Logger` everwhere else:
 ISO8601  -> "time":1673637527.6814306"
 RFC3339  -> "time":"2023-01-13T20:16:27+01:00"
 
-
 */
 import (
 	"encoding/json"
@@ -22,7 +21,7 @@ import (
 )
 
 var Logger *zap.Logger
-var logDir = "/output/logs"
+var logDir = "output/logs"
 
 var rawJSON = []byte(`{
     "level": "debug",

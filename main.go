@@ -11,6 +11,7 @@ func main() {
 
 	utils.InitializeLogger()
 
+	utils.Logger.Info("Logger initalized")
 	utils.Logger.Info("Application started")
 
 	err := commands.Execute()
