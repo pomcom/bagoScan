@@ -40,6 +40,11 @@ func (handler Filehandler) WriteToFile(filename string, output string) error {
 	return nil
 }
 
+/*
+Could be better to adjust the outputDir creation,
+since it already does get created in main.go when in initializing the
+utils logger
+*/
 func (handler *Filehandler) createDirectory() error {
 	if _, err := os.Stat(handler.outputDir); os.IsNotExist(err) {
 		err = os.MkdirAll(handler.outputDir, os.ModePerm)
