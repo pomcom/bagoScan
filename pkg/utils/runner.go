@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/pomcom/bagoScan/tools"
+	"github.com/pomcom/bagoScan/pkg/tools"
 )
 
 type Runner struct {

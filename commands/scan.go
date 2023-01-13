@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/pomcom/bagoScan/tools/nmap"
-	"github.com/pomcom/bagoScan/tools/testssl"
-	"github.com/pomcom/bagoScan/utils"
+	"github.com/pomcom/bagoScan/pkg/tools/nmap"
+	"github.com/pomcom/bagoScan/pkg/tools/testssl"
+	"github.com/pomcom/bagoScan/pkg/utils"
 	"github.com/spf13/cobra"
 )
 
