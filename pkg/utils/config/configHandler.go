@@ -34,7 +34,3 @@ func (c ConfigHandler) ReadConfig() (Config, error) {
 	}
 	return c.config, nil
 }
-
-func (c ConfigHandler) GetConfig() Config {
-	return c.config
-}
