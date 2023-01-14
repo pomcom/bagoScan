@@ -3,40 +3,34 @@ package utils
 import (
 	"fmt"
 	"sync"
-
-	"github.com/pomcom/bagoScan/pkg/tools"
 )
 
-type Runner struct {
-	Tools       []tools.Tool
+type TestRunner struct {
+	Tools       []string
 	Filehandler Filehandler
 }
 
-func (r Runner) Run(target string) {
+func (r TestRunner) Run(target string) {
 	var wg sync.WaitGroup
 	wg.Add(len(r.Tools))
 
 	for _, t := range r.Tools {
-		go func(tool tools.Tool) {
+		go func(tool string) {
 			defer wg.Done()
-			output, err := tool.Execute(target)
+			output, err := ExecuteTool(tool, target)
 			if err != nil {
 				fmt.Println("Error in runner:", err)
 				return
 			}
-			r.Filehandler.WriteToFile(tool.Name()+"-output.txt", output)
+			r.Filehandler.WriteToFile(tool+"-output.txt", output)
 		}(t)
 	}
 	wg.Wait()
 }
 
-func NewRunner() *Runner {
-	return &Runner{
-		Tools:       make([]tools.Tool, 0),
+func NewTestRunner(tools []string) *TestRunner {
+	return &TestRunner{
+		Tools:       tools,
 		Filehandler: Filehandler{},
 	}
-}
-
-func (r *Runner) AddTool(tools ...tools.Tool) {
-	r.Tools = append(r.Tools, tools...)
 }
