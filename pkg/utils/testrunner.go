@@ -5,27 +5,34 @@ import (
 	"sync"
 )
 
+type Output struct {
+	ToolName string
+	Result   string
+}
+
 type TestRunner struct {
 	Tools       []string
 	Filehandler Filehandler
 }
 
-func (r TestRunner) Run(target string) {
+func (r TestRunner) Run(target string) []Output {
 	var wg sync.WaitGroup
 	wg.Add(len(r.Tools))
+	outputs := make([]Output, 0)
 
 	for _, t := range r.Tools {
 		go func(tool string) {
 			defer wg.Done()
-			output, err := ExecuteTool(tool, target)
+			result, err := ExecuteTool(tool, target)
 			if err != nil {
 				fmt.Println("Error in runner:", err)
 				return
 			}
-			r.Filehandler.WriteToFile(tool+"-output.txt", output)
+			outputs = append(outputs, Output{ToolName: tool, Result: result})
 		}(t)
 	}
 	wg.Wait()
+	return outputs
 }
 
 func NewTestRunner(tools []string) *TestRunner {
