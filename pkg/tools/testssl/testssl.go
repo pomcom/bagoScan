@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/pomcom/bagoScan/pkg/utils"
+	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
 type Testssl struct{}
