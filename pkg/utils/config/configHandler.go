@@ -8,6 +8,7 @@ tool name <-> corresponding tool struct
 
 Decided to do this in the config, since its a good way to seperate concerns.
 maybe change struct literal syntax to NewTestssl() function, that needs to be implemented
+
 */
 
 import (
@@ -31,6 +32,11 @@ type ConfigHandler struct {
 	filepath string
 }
 
+var defaultToolMap = map[string]tools.Tool{
+	"nmap":    nmap.Nmap{},
+	"testssl": testssl.Testssl{},
+}
+
 func NewConfigHandler(filepath string) ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(filepath)
@@ -45,11 +51,6 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
 	configHandler.viper.SetConfigFile(configHandler.filepath)
 	if err := configHandler.viper.ReadInConfig(); err != nil {
-		// Use default mapping if config file not present
-		defaultToolMap := map[string]tools.Tool{
-			"nmap":    nmap.Nmap{},
-			"testssl": testssl.Testssl{},
-		}
 		return Config{ToolMap: defaultToolMap}, nil
 	}
 
