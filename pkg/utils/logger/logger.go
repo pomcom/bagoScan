@@ -1,8 +1,8 @@
 package utils
 
 /*
-Only part where the native go logger (for example: `log.Fatalf()` used should be in this part.
-Use `utils.Logger` everwhere else:
+Only part where the native go logger (for example: `log.Fatalf()` should be used is in this part.
+Use `utils.Logger` whenever possible:
 
  utils.Logger.Info("Some Information")
  utils.Logger.Warn("Warning")
