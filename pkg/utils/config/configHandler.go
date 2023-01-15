@@ -17,8 +17,8 @@ import (
 )
 
 type Config struct {
-	Tools   []string
-	ToolMap map[string]tools.Tool
+	ToolNames []string
+	ToolMap   map[string]tools.Tool
 }
 
 type ConfigHandler struct {
@@ -27,17 +27,17 @@ type ConfigHandler struct {
 	filepath string
 }
 
-func NewConfigHandler(filepath string) ConfigHandler {
+func NewConfigHandler(filepath string) *ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(filepath)
 	v.ReadInConfig()
-	return ConfigHandler{
+	return &ConfigHandler{
 		viper:    v,
 		filepath: filepath,
 	}
 }
 
-func (c ConfigHandler) ReadConfig() (Config, error) {
+func (c *ConfigHandler) ReadConfig() (Config, error) {
 	c.viper.SetConfigFile(c.filepath)
 	if err := c.viper.ReadInConfig(); err != nil {
 		return Config{}, err
@@ -46,18 +46,17 @@ func (c ConfigHandler) ReadConfig() (Config, error) {
 	toolMap := make(map[string]tools.Tool)
 	for _, t := range tools {
 		var tool tools.Tool
-
 		switch t {
 		case "testssl":
-			tool = testssl.Testssl{}
+			tool = &testssl.Testssl{}
 		case "nmap":
-			tool = nmap.Nmap{}
+			tool = &nmap.Nmap{}
 		}
 		toolMap[t] = tool
 	}
 	c.config = Config{
-		Tools:   tools,
-		ToolMap: toolMap,
+		ToolNames: tools,
+		ToolMap:   toolMap,
 	}
 	return c.config, nil
 }
