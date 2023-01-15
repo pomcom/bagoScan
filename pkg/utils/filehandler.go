@@ -11,9 +11,15 @@ type Filehandler struct {
 	outputDir string
 }
 
-func (handler Filehandler) WriteToFile(filename string, output string) error {
-	handler.outputDir = "output/raw"
+func NewFilehandler(outputDir string) Filehandler {
+	// set default path, if no path is provided
+	if outputDir == "" {
+		outputDir = "output/raw"
+	}
+	return Filehandler{outputDir: outputDir}
+}
 
+func (handler Filehandler) WriteToFile(filename string, output string) error {
 	// create out/raw if it does not exist
 	if err := handler.createDirectory(); err != nil {
 		return err

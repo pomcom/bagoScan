@@ -11,8 +11,7 @@ type Output struct {
 }
 
 type TestRunner struct {
-	Tools       []string
-	Filehandler Filehandler
+	Tools []string
 }
 
 func (r TestRunner) Run(target string) []Output {
@@ -37,7 +36,6 @@ func (r TestRunner) Run(target string) []Output {
 
 func NewTestRunner(tools []string) *TestRunner {
 	return &TestRunner{
-		Tools:       tools,
-		Filehandler: Filehandler{},
+		Tools: tools,
 	}
 }
