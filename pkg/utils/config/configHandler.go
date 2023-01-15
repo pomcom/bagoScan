@@ -37,6 +37,7 @@ var defaultToolMap = map[string]tools.Tool{
 	"testssl": testssl.Testssl{},
 }
 
+// all implemented tools need to be initialized here
 var defaultToolFactories = map[string]func() tools.Tool{
 	"testssl": func() tools.Tool { return testssl.Testssl{} },
 	"nmap":    func() tools.Tool { return nmap.Nmap{} },
@@ -62,7 +63,6 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
 	utils.Logger.Info("Using provided configuration file")
-	// all implemented tools need to be initialized here
 	toolFactories := defaultToolFactories
 
 	toolMap := make(map[string]tools.Tool)
