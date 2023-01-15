@@ -51,7 +51,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
 	configHandler.viper.SetConfigFile(configHandler.filepath)
 	if err := configHandler.viper.ReadInConfig(); err != nil {
-		utils.Logger.Info("No configuration file provived - using default tools")
+		utils.Logger.Info("No configuration file provided - using default tools")
 		return Config{ToolMap: defaultToolMap}, nil
 	}
 

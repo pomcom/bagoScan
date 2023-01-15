@@ -1,10 +1,11 @@
-{"level":"info","time":"2023-01-15T20:25:01+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T20:25:01+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T20:25:01+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T20:25:13+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T20:25:13+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T20:25:13+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T20:25:13+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T20:25:52+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T20:25:52+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T20:25:52+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T20:38:11+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-15T20:38:11+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-15T20:38:11+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T20:38:11+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T20:38:11+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"No configuration file provived - using default tools"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"No configuration file provived - using default tools"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T20:38:32+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
