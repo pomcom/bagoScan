@@ -1,61 +1,42 @@
 package ffuf
 
 import (
-	"fmt"
 	"os/exec"
-
-	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
-type Ffuf struct{}
+type Ffuf struct {
+	options []string
+}
 
 var tool = "ffuf"
 
-func (n Ffuf) Execute(target string) (string, error) {
-
-	output, err := runFfuf(target)
-	if err != nil {
-		return "", err
-	}
-
-	fmt.Println(output)
-
-	return output, nil
-}
-
-func (n Ffuf) Name() string {
+func (f Ffuf) Name() string {
 	return tool
 }
+func (f Ffuf) AddOption(opt string) {
+	f.options = append(f.options, opt)
+}
 
-func runFfuf(target string) (string, error) {
-
-	// check if nmap is installed first
-	_, err := exec.LookPath(tool)
-
-	if err != nil {
-		utils.ToolFailed(tool, target, err)
-		return "", fmt.Errorf("nmap not found")
-	}
-
-	// check if target is reachable - check if ping is in path?
-	pingCmd := exec.Command("ping", "-c 1", "-W 1", target)
-	if err := pingCmd.Run(); err != nil {
-		return "", fmt.Errorf("target %s is not reachable", target)
-	}
-
-	utils.ToolStartLog(tool, target)
-	cmd := exec.Command(tool, target)
+func (f Ffuf) Execute(target string) (string, error) {
+	cmd := exec.Command("ffuf", append([]string{target}, f.options...)...)
 	out, err := cmd.Output()
 	if err != nil {
-		utils.ToolFailed(tool, target, err)
-		return "", err
-	}
-
-	utils.ToolFinishedLog(tool, target)
-
-	if err != nil {
-		utils.ToolFailed(tool, target, err)
 		return "", err
 	}
 	return string(out), nil
 }
+
+/*
+Verschiedene Fuff automation = verschiedene "Tools" unabhaenig voneinander?
+Wordlist übergeben usw  - erst customs flags implementieren?
+Wordlists,
+einfach in Tool einbinden unter Ressources? -
+
+
+Public helpers mit set usw ? - Nein
+Lib support ? Nein :(
+
+
+struct Ffuf resource discvoery
+
+*/

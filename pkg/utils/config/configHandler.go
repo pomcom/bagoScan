@@ -15,6 +15,7 @@ import (
 	"fmt"
 
 	"github.com/pomcom/bagoScan/pkg/tools"
+	"github.com/pomcom/bagoScan/pkg/tools/ffuf"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
@@ -35,12 +36,14 @@ type ConfigHandler struct {
 var defaultToolMap = map[string]tools.Tool{
 	"nmap":    nmap.Nmap{},
 	"testssl": testssl.Testssl{},
+	"ffuf":    ffuf.Ffuf{},
 }
 
 // all implemented tools need to be initialized here
 var defaultToolFactories = map[string]func() tools.Tool{
 	"testssl": func() tools.Tool { return testssl.Testssl{} },
 	"nmap":    func() tools.Tool { return nmap.Nmap{} },
+	"ffuf":    func() tools.Tool { return ffuf.Ffuf{} },
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
