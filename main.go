@@ -21,5 +21,5 @@ func main() {
 	}
 
 	ps := services.NewPentestService("config.yml")
-	ps.RunScan("example.com")
+	ps.RunScan("pomcom.digital")
 }
