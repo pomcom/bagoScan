@@ -22,8 +22,7 @@ import (
 
 type Config struct {
 	ToolNames []string
-	// trying to use keys of the map to look u corresponding Tool struct
-	ToolMap map[string]tools.Tool
+	ToolMap   map[string]tools.Tool
 }
 
 type ConfigHandler struct {
