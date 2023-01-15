@@ -20,9 +20,6 @@ func (n Nmap) Execute(target string) (string, error) {
 
 	fmt.Println(output)
 
-	if err != nil {
-		return output, fmt.Errorf("Error in nmap module writing output to file: %s", err)
-	}
 	return output, nil
 }
 
