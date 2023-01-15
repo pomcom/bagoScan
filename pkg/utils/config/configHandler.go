@@ -37,6 +37,11 @@ var defaultToolMap = map[string]tools.Tool{
 	"testssl": testssl.Testssl{},
 }
 
+var defaultToolFactories = map[string]func() tools.Tool{
+	"testssl": func() tools.Tool { return testssl.Testssl{} },
+	"nmap":    func() tools.Tool { return nmap.Nmap{} },
+}
+
 func NewConfigHandler(filepath string) ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(filepath)
@@ -58,10 +63,8 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	toolNames := configHandler.viper.GetStringSlice("tools")
 	utils.Logger.Info("Using provided configuration file")
 	// all implemented tools need to be initialized here
-	toolFactories := map[string]func() tools.Tool{
-		"testssl": func() tools.Tool { return testssl.Testssl{} },
-		"nmap":    func() tools.Tool { return nmap.Nmap{} },
-	}
+	toolFactories := defaultToolFactories
+
 	toolMap := make(map[string]tools.Tool)
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
