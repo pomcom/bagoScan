@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"github.com/pomcom/bagoScan/pkg/services"
 	"github.com/spf13/cobra"
 )
 
@@ -15,8 +14,9 @@ var (
 )
 
 func startNmap(cmd *cobra.Command, args []string) {
-	target, _ := cmd.Flags().GetString("target")
+	// target, _ := cmd.Flags().GetString("target")
 
-	pentestService := services.SingleToolRunnerService("nmap")
-	pentestService.RunScan(target)
+	//pentestService := services.NewPentestService("config.yaml")
+	//pentestService.RunScan("nmap", target)
+
 }

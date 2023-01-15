@@ -45,8 +45,41 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	configHandler.viper.SetConfigFile(configHandler.filepath)
 	if err := configHandler.viper.ReadInConfig(); err != nil {
 		return Config{}, err
+
 	}
 	toolNames := configHandler.viper.GetStringSlice("tools")
+	toolFactories := map[string]func() tools.Tool{
+		"testssl": func() tools.Tool { return testssl.Testssl{} },
+		"nmap":    func() tools.Tool { return nmap.Nmap{} },
+	}
+	toolMap := make(map[string]tools.Tool)
+	for _, t := range toolNames {
+		factory, ok := toolFactories[t]
+		if !ok {
+			return Config{}, fmt.Errorf("tool not found: %s", t)
+		}
+		toolMap[t] = factory()
+	}
+	configHandler.config = Config{
+		ToolNames: toolNames,
+		ToolMap:   toolMap,
+	}
+	return configHandler.config, nil
+}
+
+func (configHandler ConfigHandler) ReadConfigNew() (Config, error) {
+	configHandler.viper.SetConfigFile(configHandler.filepath)
+	if err := configHandler.viper.ReadInConfig(); err != nil {
+		// Use default mapping if config file not present
+		defaultToolMap := map[string]tools.Tool{
+			"nmap":    nmap.Nmap{},
+			"testssl": testssl.Testssl{},
+		}
+		return Config{ToolMap: defaultToolMap}, nil
+	}
+
+	toolNames := configHandler.viper.GetStringSlice("tools")
+	// all implemented tools need to be initialized here
 	toolFactories := map[string]func() tools.Tool{
 		"testssl": func() tools.Tool { return testssl.Testssl{} },
 		"nmap":    func() tools.Tool { return nmap.Nmap{} },
