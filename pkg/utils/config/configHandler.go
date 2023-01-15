@@ -7,9 +7,12 @@ just with the name of the tool, a mapping needs to be done.
 tool name <-> corresponding tool struct
 
 Decided to do this in the config, since its a good way to seperate concerns.
+maybe change struct literal syntax to NewTestssl() function, that needs to be implemented
 */
 
 import (
+	"fmt"
+
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
@@ -18,7 +21,8 @@ import (
 
 type Config struct {
 	ToolNames []string
-	ToolMap   map[string]tools.Tool
+	// trying to use keys of the map to look u corresponding Tool struct
+	ToolMap map[string]tools.Tool
 }
 
 type ConfigHandler struct {
@@ -27,36 +31,37 @@ type ConfigHandler struct {
 	filepath string
 }
 
-func NewConfigHandler(filepath string) *ConfigHandler {
+func NewConfigHandler(filepath string) ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(filepath)
 	v.ReadInConfig()
-	return &ConfigHandler{
+	return ConfigHandler{
 		viper:    v,
 		filepath: filepath,
 	}
 }
 
-func (c *ConfigHandler) ReadConfig() (Config, error) {
-	c.viper.SetConfigFile(c.filepath)
-	if err := c.viper.ReadInConfig(); err != nil {
+func (configHandler ConfigHandler) ReadConfig() (Config, error) {
+	configHandler.viper.SetConfigFile(configHandler.filepath)
+	if err := configHandler.viper.ReadInConfig(); err != nil {
 		return Config{}, err
 	}
-	tools := c.viper.GetStringSlice("tools")
-	toolMap := make(map[string]tools.Tool)
-	for _, t := range tools {
-		var tool tools.Tool
-		switch t {
-		case "testssl":
-			tool = &testssl.Testssl{}
-		case "nmap":
-			tool = &nmap.Nmap{}
-		}
-		toolMap[t] = tool
+	toolNames := configHandler.viper.GetStringSlice("tools")
+	toolFactories := map[string]func() tools.Tool{
+		"testssl": func() tools.Tool { return testssl.Testssl{} },
+		"nmap":    func() tools.Tool { return nmap.Nmap{} },
 	}
-	c.config = Config{
-		ToolNames: tools,
+	toolMap := make(map[string]tools.Tool)
+	for _, t := range toolNames {
+		factory, ok := toolFactories[t]
+		if !ok {
+			return Config{}, fmt.Errorf("tool not found: %s", t)
+		}
+		toolMap[t] = factory()
+	}
+	configHandler.config = Config{
+		ToolNames: toolNames,
 		ToolMap:   toolMap,
 	}
-	return c.config, nil
+	return configHandler.config, nil
 }
