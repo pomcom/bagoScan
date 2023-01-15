@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/pomcom/bagoScan/commands"
-	services "github.com/pomcom/bagoScan/pkg/services"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
@@ -19,7 +18,4 @@ func main() {
 	if err != nil && err.Error() != "" {
 		fmt.Println(err)
 	}
-
-	ps := services.NewPentestService("config.yml")
-	ps.RunScan("pomcom.digital")
 }
