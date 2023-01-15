@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/pomcom/bagoScan/pkg/utils"
+	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
 type Testssl struct{}
@@ -20,9 +20,6 @@ func (t Testssl) Execute(target string) (string, error) {
 
 	fmt.Println(output)
 
-	if err != nil {
-		return output, fmt.Errorf("Error in testssl module writing output to file: %s", err)
-	}
 	return output, nil
 }
 

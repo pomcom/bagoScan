@@ -1,8 +1,9 @@
 package tools
 
-// Interface for any tool, that can be executed
+// Every tool must implement this interface
 type Tool interface {
-	// Runs the tool with the provided flags and returns the output or an error
+	// The implementation gets executed in the `testrunner.go`
 	Execute(target string) (output string, err error)
+	// Name of the implemented tool
 	Name() string
 }

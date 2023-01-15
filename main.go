@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pomcom/bagoScan/commands"
-	"github.com/pomcom/bagoScan/pkg/utils"
+	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
 func main() {
@@ -18,5 +18,4 @@ func main() {
 	if err != nil && err.Error() != "" {
 		fmt.Println(err)
 	}
-
 }
