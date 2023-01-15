@@ -17,6 +17,7 @@ import (
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
+	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/spf13/viper"
 )
 
@@ -50,10 +51,12 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
 	configHandler.viper.SetConfigFile(configHandler.filepath)
 	if err := configHandler.viper.ReadInConfig(); err != nil {
+		utils.Logger.Info("No configuration file provived - using default tools")
 		return Config{ToolMap: defaultToolMap}, nil
 	}
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
+	utils.Logger.Info("Using provided configuration file")
 	// all implemented tools need to be initialized here
 	toolFactories := map[string]func() tools.Tool{
 		"testssl": func() tools.Tool { return testssl.Testssl{} },
@@ -63,6 +66,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
 		if !ok {
+			utils.Logger.Warn("Tool not found - Has a new tool been implemented and added in the configHandler?")
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
 		toolMap[t] = factory()
