@@ -1,23 +1,16 @@
-{"level":"info","time":"2023-01-15T21:59:44+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T21:59:44+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T21:59:44+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T21:59:44+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T21:59:50+01:00","message":"Finished","tool":"nmap","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"No configuration file provided - using default tools"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"No configuration file provided - using default tools"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:00:27+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T22:01:41+01:00","message":"Finished","tool":"testssl.sh","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T22:03:30+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T22:03:30+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T22:03:30+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:03:30+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:03:30+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-15T22:04:38+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-15T22:04:38+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-15T22:04:38+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:04:38+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-15T22:04:38+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T22:08:31+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-15T22:08:31+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-15T22:08:31+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T22:08:31+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T22:08:31+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T22:08:57+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-15T22:08:57+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-15T22:08:57+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T22:08:57+01:00","message":"Using provided configuration file"}
+{"level":"info","time":"2023-01-15T22:08:57+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"No config file provided - using default tools"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"No config file provided - using default tools"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
