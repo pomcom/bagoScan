@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
+	"go.uber.org/zap"
 )
 
 type Testssl struct {
@@ -34,7 +35,8 @@ func runTessl(target string, t Testssl) (string, error) {
 	utils.ToolStartLog(t.name, target)
 
 	cmd := exec.Command("testssl.sh", append(t.flags, target)...)
-	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
+	//	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
+	utils.Logger.Info("Full command", zap.String(" ", cmd.Path), zap.String(" ", strings.Join(cmd.Args[1:], "")))
 	out, err := cmd.Output()
 
 	utils.ToolFinishedLog(t.name, target)

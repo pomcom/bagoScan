@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
+	"go.uber.org/zap"
 )
 
 type Nmap struct {
@@ -39,7 +40,8 @@ func runNmap(target string, n Nmap) (string, error) {
 
 	utils.ToolStartLog(n.name, target)
 	cmd := exec.Command("nmap", append(n.flags, target)...)
-	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
+	//	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
+	utils.Logger.Info("Full command", zap.String(" ", cmd.Path), zap.String(" ", strings.Join(cmd.Args[1:], "")))
 
 	//Output() returns combined output of stdout and stderr
 	//Seperation possible using StdoutPipe() and SterrPipe()
