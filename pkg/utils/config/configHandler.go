@@ -14,9 +14,9 @@ maybe change struct literal syntax to NewTestssl() function, that needs to be im
 import (
 	"fmt"
 
+	"github.com/alecthomas/chroma/lexers/w"
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
-	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/spf13/viper"
 )
@@ -33,14 +33,14 @@ type ConfigHandler struct {
 }
 
 var defaultToolMap = map[string]tools.Tool{
-	"nmap":    nmap.Nmap{},
-	"testssl": testssl.Testssl{},
+	"nmap": nmap.Nmap{},
+	// "testssl": testssl.Testssl{},
 }
 
 // all implemented tools need to be initialized here
 var defaultToolFactories = map[string]func() tools.Tool{
-	"testssl": func() tools.Tool { return testssl.Testssl{} },
-	"nmap":    func() tools.Tool { return nmap.Nmap{} },
+	// "testssl": func() tools.Tool { return testssl.Testssl{} },
+	"nmap": func() tools.Tool { return nmap.Nmap{} },
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
@@ -65,6 +65,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
+	toolFLags := make(map[string][string])
 	toolMap := make(map[string]tools.Tool)
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
@@ -72,6 +73,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 			utils.Logger.Warn("Tool not found - Has a new tool been implemented and added in the configHandler?")
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
+		toolFLags[t] = configHandler.viper.GetStringSlice(t)
 		toolMap[t] = factory()
 	}
 	configHandler.config = Config{

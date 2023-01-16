@@ -3,11 +3,14 @@ package nmap
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
-type Nmap struct{}
+type Nmap struct {
+	flags string
+}
 
 var tool = "nmap"
 
@@ -25,6 +28,10 @@ func (n Nmap) Execute(target string) (string, error) {
 
 func (n Nmap) Name() string {
 	return tool
+}
+
+func (n Nmap) setFlags(flags ...string) {
+	n.flags = strings.Join(flags, "")
 }
 
 func runNmap(target string) (string, error) {
