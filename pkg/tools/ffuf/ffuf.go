@@ -1,7 +1,10 @@
 package ffuf
 
 import (
+	"fmt"
 	"os/exec"
+
+	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
 
 type Ffuf struct {
@@ -18,11 +21,18 @@ func (f Ffuf) AddOption(opt string) {
 }
 
 func (f Ffuf) Execute(target string) (string, error) {
-	cmd := exec.Command("ffuf", append([]string{target}, f.options...)...)
+
+	options := []string{"-w", "resources/common.txt", "-u", "http://" + target + "/FUZZ"}
+	utils.ToolStartLog(tool, target)
+	cmd := exec.Command("ffuf", options...)
 	out, err := cmd.Output()
 	if err != nil {
+		utils.ToolFailed(tool, target, err)
 		return "", err
 	}
+	fmt.Println(string(out))
+
+	utils.ToolFinishedLog(tool, target)
 	return string(out), nil
 }
 

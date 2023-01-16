@@ -34,9 +34,9 @@ type ConfigHandler struct {
 }
 
 var defaultToolMap = map[string]tools.Tool{
-	"nmap":    nmap.Nmap{},
-	"testssl": testssl.Testssl{},
-	"ffuf":    ffuf.Ffuf{},
+	//	"nmap":    nmap.Nmap{},
+	//	"testssl": testssl.Testssl{},
+	"ffuf": ffuf.Ffuf{},
 }
 
 // all implemented tools need to be initialized here
