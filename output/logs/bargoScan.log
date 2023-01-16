@@ -14,3 +14,9 @@
 {"level":"info","time":"2023-01-15T22:09:07+01:00","message":"No config file provided - using default tools"}
 {"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
 {"level":"info","time":"2023-01-15T22:09:07+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"Logger initalized"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"Application started"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"No config file provided - using default tools"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"No config file provided - using default tools"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"Running","tool":"testssl.sh","on target":"pomcom.digital"}
+{"level":"info","time":"2023-01-16T09:09:22+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
