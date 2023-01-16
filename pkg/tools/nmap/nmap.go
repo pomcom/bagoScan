@@ -30,9 +30,11 @@ func (n Nmap) Name() string {
 	return tool
 }
 
-func (n Nmap) SetFlags(flags []string) {
+func (n *Nmap) SetFlags(flags []string) {
+
+	fmt.Println("set flags in set flags method:", flags)
 	n.flags = flags
-	fmt.Println("set flags method:", flags)
+	fmt.Println("set flags in set flags method:", flags)
 }
 
 func runNmap(target string, n Nmap) (string, error) {
@@ -45,19 +47,9 @@ func runNmap(target string, n Nmap) (string, error) {
 		return "", fmt.Errorf("nmap not found")
 	}
 
-	// check if target is reachable - check if ping is in path?
-	pingCmd := exec.Command("ping", "-c 1", "-W 1", target)
-	if err := pingCmd.Run(); err != nil {
-		return "", fmt.Errorf("target %s is not reachable", target)
-	}
-
 	utils.ToolStartLog(tool, target)
-	//cmd := exec.Command(tool, target)
-	// cmd := exec.Command("nmap", append([]string{target}, n.flags...)...)
+	cmd := exec.Command("nmap", append(n.flags, target)...)
 	println("flags nmap:", n.flags)
-	// cmd := exec.Command("nmap", append([]string{target}, n.flags...)...)
-	cmd := exec.Command("nmap", append(append([]string{}, n.flags...), target)...)
-
 	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
 
 	//Output() returns combined output of stdout and stderr
@@ -71,9 +63,5 @@ func runNmap(target string, n Nmap) (string, error) {
 
 	utils.ToolFinishedLog(tool, target)
 
-	if err != nil {
-		utils.ToolFailed(tool, target, err)
-		return "", err
-	}
 	return string(out), nil
 }

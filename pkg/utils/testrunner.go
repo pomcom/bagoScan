@@ -10,6 +10,7 @@ import (
 type Output struct {
 	ToolName string
 	Result   string
+	Target   string
 }
 
 type TestRunner struct {

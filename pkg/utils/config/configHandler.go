@@ -32,14 +32,14 @@ type ConfigHandler struct {
 }
 
 var defaultToolMap = map[string]tools.Tool{
-	"nmap": nmap.Nmap{},
+	"nmap": &nmap.Nmap{},
 	// "testssl": testssl.Testssl{},
 }
 
 // all implemented tools need to be initialized here
 var defaultToolFactories = map[string]func() tools.Tool{
 	// "testssl": func() tools.Tool { return testssl.Testssl{} },
-	"nmap": func() tools.Tool { return nmap.Nmap{} },
+	"nmap": func() tools.Tool { return &nmap.Nmap{} },
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
@@ -61,7 +61,6 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	}
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
-	fmt.Println("tool names:", toolNames)
 	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
@@ -75,9 +74,10 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
 		toolFlags[t] = configHandler.viper.GetStringSlice(t)
-		fmt.Println("tool flags:", toolFlags)
 		tool := factory()
+
 		tool.SetFlags(toolFlags[t])
+		fmt.Println("tool flags in configHandler:", toolFlags)
 		toolMap[t] = tool
 	}
 	configHandler.config = Config{
