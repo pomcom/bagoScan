@@ -33,7 +33,8 @@ func runTessl(target string, t Testssl) (string, error) {
 
 	utils.ToolStartLog(t.name, target)
 
-	cmd := exec.Command("testssl.sh", append(t.flags, target)...)
+	// called testssl on debian, testssl.sh on nixos
+	cmd := exec.Command("testssl", append(t.flags, target)...)
 	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
 	out, err := cmd.Output()
 
