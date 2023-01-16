@@ -3,6 +3,7 @@ package nmap
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 )
@@ -55,8 +56,14 @@ func runNmap(target string, n Nmap) (string, error) {
 	// cmd := exec.Command("nmap", append([]string{target}, n.flags...)...)
 	println("flags nmap:", n.flags)
 	// cmd := exec.Command("nmap", append([]string{target}, n.flags...)...)
-	cmd := exec.Command("nmap", append(n.flags, target)...)
+	cmd := exec.Command("nmap", append(append([]string{}, n.flags...), target)...)
+
+	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
+
+	//Output() returns combined output of stdout and stderr
+	//Seperation possible using StdoutPipe() and SterrPipe()
 	out, err := cmd.Output()
+
 	if err != nil {
 		utils.ToolFailed(tool, target, err)
 		return "", err
