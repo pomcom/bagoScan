@@ -14,7 +14,6 @@ maybe change struct literal syntax to NewTestssl() function, that needs to be im
 import (
 	"fmt"
 
-	"github.com/alecthomas/chroma/lexers/w"
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
@@ -62,19 +61,24 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	}
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
+	fmt.Println("tool names:", toolNames)
 	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
-	toolFLags := make(map[string][string])
+	toolFlags := make(map[string][]string)
 	toolMap := make(map[string]tools.Tool)
+
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
 		if !ok {
 			utils.Logger.Warn("Tool not found - Has a new tool been implemented and added in the configHandler?")
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
-		toolFLags[t] = configHandler.viper.GetStringSlice(t)
-		toolMap[t] = factory()
+		toolFlags[t] = configHandler.viper.GetStringSlice(t)
+		fmt.Println("tool flags:", toolFlags)
+		tool := factory()
+		tool.SetFlags(toolFlags[t])
+		toolMap[t] = tool
 	}
 	configHandler.config = Config{
 		ToolNames: toolNames,

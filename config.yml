@@ -1,0 +1,6 @@
+tools:
+  - nmap
+
+nmap:
+  - -Pn
+  - -p-  

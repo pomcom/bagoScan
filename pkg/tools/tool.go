@@ -7,5 +7,5 @@ type Tool interface {
 	// Name of the implemented tool
 	Name() string
 	// Set custom, variable number of flags for the tool
-	SetFlags(flags ...string)
+	SetFlags(flags []string)
 }
