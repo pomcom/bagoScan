@@ -32,15 +32,23 @@ type ConfigHandler struct {
 	filepath string
 }
 
+var defaultToolFlags = map[string]struct {
+	flags []string
+	name  string
+}{
+	"nmap":    {[]string{"-T4", "-A"}, "nmap"},
+	"testssl": {[]string{"--json"}, "testssl"},
+}
+
 var defaultToolMap = map[string]tools.Tool{
-	"nmap":    nmap.Nmap{},
-	"testssl": testssl.Testssl{},
+	"nmap":    nmap.NewNmap(defaultToolFlags["nmap"].flags, defaultToolFlags["nmap"].name),
+	"testssl": testssl.NewTestssl(defaultToolFlags["testssl"].flags, defaultToolFlags["testssl"].name),
 }
 
 // all implemented tools need to be initialized here
-var defaultToolFactories = map[string]func() tools.Tool{
-	"testssl": func() tools.Tool { return testssl.Testssl{} },
-	"nmap":    func() tools.Tool { return nmap.Nmap{} },
+var defaultToolFactories = map[string]func([]string) tools.Tool{
+	"nmap":    func(flags []string) tools.Tool { return nmap.NewNmap(flags, "nmap") },
+	"testssl": func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
@@ -56,6 +64,7 @@ func NewConfigHandler(filepath string) ConfigHandler {
 func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
 	configHandler.viper.SetConfigFile(configHandler.filepath)
+
 	if err := configHandler.viper.ReadInConfig(); err != nil {
 		utils.Logger.Info("No config file provided - using default tools")
 		return Config{ToolMap: defaultToolMap}, nil
@@ -65,14 +74,19 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
+	toolFlags := make(map[string][]string)
 	toolMap := make(map[string]tools.Tool)
+
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
 		if !ok {
 			utils.Logger.Warn("Tool not found - Has a new tool been implemented and added in the configHandler?")
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
-		toolMap[t] = factory()
+		toolFlags[t] = configHandler.viper.GetStringSlice(t)
+		tool := factory(toolFlags[t])
+
+		toolMap[t] = tool
 	}
 	configHandler.config = Config{
 		ToolNames: toolNames,
