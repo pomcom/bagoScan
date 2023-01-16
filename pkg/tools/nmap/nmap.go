@@ -10,9 +10,8 @@ import (
 
 type Nmap struct {
 	flags []string
+	name  string
 }
-
-var tool = "nmap"
 
 func (n Nmap) Execute(target string) (string, error) {
 
@@ -20,36 +19,26 @@ func (n Nmap) Execute(target string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	fmt.Println(output)
-
 	return output, nil
 }
 
-func (n Nmap) Name() string {
-	return tool
-}
-
-func (n *Nmap) SetFlags(flags []string) {
-
-	fmt.Println("set flags in set flags method:", flags)
-	n.flags = flags
-	fmt.Println("set flags in set flags method:", flags)
+func NewNmap(flags []string, name string) Nmap {
+	return Nmap{flags: flags, name: name}
 }
 
 func runNmap(target string, n Nmap) (string, error) {
 
 	// check if nmap is installed first
-	_, err := exec.LookPath(tool)
+	_, err := exec.LookPath(n.name)
 
 	if err != nil {
-		utils.ToolFailed(tool, target, err)
+		utils.ToolFailed(n.name, target, err)
 		return "", fmt.Errorf("nmap not found")
 	}
 
-	utils.ToolStartLog(tool, target)
+	utils.ToolStartLog(n.name, target)
 	cmd := exec.Command("nmap", append(n.flags, target)...)
-	println("flags nmap:", n.flags)
 	fmt.Printf("Running command: %s %s\n", cmd.Path, strings.Join(cmd.Args[1:], " "))
 
 	//Output() returns combined output of stdout and stderr
@@ -57,11 +46,11 @@ func runNmap(target string, n Nmap) (string, error) {
 	out, err := cmd.Output()
 
 	if err != nil {
-		utils.ToolFailed(tool, target, err)
+		utils.ToolFailed(n.name, target, err)
 		return "", err
 	}
 
-	utils.ToolFinishedLog(tool, target)
+	utils.ToolFinishedLog(n.name, target)
 
 	return string(out), nil
 }
