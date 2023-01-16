@@ -1,8 +1,0 @@
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Logger initalized"}
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Application started"}
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Using provided configuration file"}
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Running","tool":"nmap","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-16T16:50:32+01:00","message":"Running","tool":"testssl","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-16T16:51:41+01:00","message":"Finished","tool":"testssl","on target":"pomcom.digital"}
-{"level":"info","time":"2023-01-16T16:52:35+01:00","message":"Finished","tool":"nmap","on target":"pomcom.digital"}
