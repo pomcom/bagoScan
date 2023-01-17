@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/pomcom/bagoScan/pkg/core"
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/utils"
 	"github.com/pomcom/bagoScan/pkg/utils/config"
@@ -9,8 +10,8 @@ import (
 
 type TestRunnerService struct {
 	configHandler config.ConfigHandler
-	runner        utils.TestRunner
-	fileHandler   utils.Filehandler
+	runner        core.TestRunner
+	fileHandler   core.Filehandler
 }
 
 func (service TestRunnerService) RunAllTools(target string) error {
@@ -18,7 +19,7 @@ func (service TestRunnerService) RunAllTools(target string) error {
 	if err != nil {
 		return err
 	}
-	service.runner = utils.NewTestRunner(config.ToolMap)
+	service.runner = core.NewTestRunner(config.ToolMap)
 	outputs := service.runner.Run(target)
 
 	for _, output := range outputs {
@@ -74,6 +75,6 @@ func NewTestRunnerService(configPath string) TestRunnerService {
 	if err != nil {
 		panic(err)
 	}
-	fileHandler := utils.NewFilehandler("")
-	return TestRunnerService{configHandler: configHandler, fileHandler: fileHandler, runner: utils.NewTestRunner(config.ToolMap)}
+	fileHandler := core.NewFilehandler("")
+	return TestRunnerService{configHandler: configHandler, fileHandler: fileHandler, runner: core.NewTestRunner(config.ToolMap)}
 }
