@@ -1,6 +1,12 @@
 package utils
 
 /*
+TODO Rewrite to use different encoders for console logging and file logging
+This way colored console logging would be doable.
+Probably possible to use zapcore.CapitalColorLevelEncoder for the console
+and zapcore.LowercaseLevelEncoder for file output.
+Would also be better to set the JSON format when building the encoder.
+
 Only part where the native go logger (for example: `log.Fatalf()` should be used is in this part.
 Use `utils.Logger` whenever possible:
 

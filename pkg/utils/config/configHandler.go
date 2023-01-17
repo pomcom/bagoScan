@@ -32,23 +32,25 @@ type ConfigHandler struct {
 	filepath string
 }
 
+// all implemented tools need to be initialized and mapped here
+var defaultToolFactories = map[string]func([]string) tools.Tool{
+	"nmap":    func(flags []string) tools.Tool { return nmap.NewNmap(flags, "nmap") },
+	"testssl": func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
+}
+
+// default tools that are executed when no config.yaml is provided
+var defaultToolMap = map[string]tools.Tool{
+	"nmap":    nmap.NewNmap(defaultToolFlags["nmap"].flags, defaultToolFlags["nmap"].name),
+	"testssl": testssl.NewTestssl(defaultToolFlags["testssl"].flags, defaultToolFlags["testssl"].name),
+}
+
+// default flags that are used when no custom flags are provided in the config.yaml
 var defaultToolFlags = map[string]struct {
 	flags []string
 	name  string
 }{
 	"nmap":    {[]string{"-T4", "-A"}, "nmap"},
 	"testssl": {[]string{"--json"}, "testssl"},
-}
-
-var defaultToolMap = map[string]tools.Tool{
-	"nmap":    nmap.NewNmap(defaultToolFlags["nmap"].flags, defaultToolFlags["nmap"].name),
-	"testssl": testssl.NewTestssl(defaultToolFlags["testssl"].flags, defaultToolFlags["testssl"].name),
-}
-
-// all implemented tools need to be initialized here
-var defaultToolFactories = map[string]func([]string) tools.Tool{
-	"nmap":    func(flags []string) tools.Tool { return nmap.NewNmap(flags, "nmap") },
-	"testssl": func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
@@ -66,7 +68,8 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	configHandler.viper.SetConfigFile(configHandler.filepath)
 
 	if err := configHandler.viper.ReadInConfig(); err != nil {
-		utils.Logger.Info("No config file provided - using default tools")
+		// TODO
+		// utils.Logger.Info("No config file provided - using default tools")
 		return Config{ToolMap: defaultToolMap}, nil
 	}
 
@@ -80,7 +83,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 	for _, t := range toolNames {
 		factory, ok := toolFactories[t]
 		if !ok {
-			utils.Logger.Warn("Tool not found - Has a new tool been implemented and added in the configHandler?")
+			utils.Logger.Warn("Tool not found - Check config.yml for typos. Has a new tool been implemented and added in the configHandler?")
 			return Config{}, fmt.Errorf("tool not found: %s", t)
 		}
 		toolFlags[t] = configHandler.viper.GetStringSlice(t)
@@ -93,4 +96,17 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 		ToolMap:   toolMap,
 	}
 	return configHandler.config, nil
+}
+
+func (configHandler ConfigHandler) ReadSingleToolConfig(toolName string) (tools.Tool, error) {
+	defaultFlag, ok := defaultToolFlags[toolName]
+	if !ok {
+		return nil, fmt.Errorf("tool not supported: %s", toolName)
+	}
+	factory, ok := defaultToolFactories[toolName]
+	if !ok {
+		return nil, fmt.Errorf("tool not found: %s", toolName)
+	}
+	tool := factory(defaultFlag.flags)
+	return tool, nil
 }
