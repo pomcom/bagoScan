@@ -9,8 +9,8 @@ var target string
 var (
 	rootCmd = &cobra.Command{
 		Use:           "bagoScan",
-		Short:         "bagoScan runs mulitple security scans on a target.",
-		Long:          `bagoScan runs multiple modular security scans on a given target. Work in Progress.`,
+		Short:         "bagoScan executes various tools against a target.",
+		Long:          `bagoScan executes various tools against a target. Work in Progress.`,
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}
@@ -23,7 +23,12 @@ func init() {
 
 	runNmap.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
 	runNmap.MarkFlagRequired("target")
+
+	runTestssl.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	runTestssl.MarkFlagRequired("target")
+
 	rootCmd.AddCommand(runNmap)
+	rootCmd.AddCommand(runTestssl)
 }
 
 func Execute() error {

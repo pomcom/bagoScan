@@ -9,14 +9,14 @@ var (
 	scan = &cobra.Command{
 		Use:   "scan",
 		Short: "Scans a target with all activated modules.",
-		Long:  `Scan currently supports testssl and nmap`,
+		Long:  `If no config.yml is provided, all tools with default flag get executed against the target.`,
 		Run:   startScan,
 	}
 )
 
 func startScan(cmd *cobra.Command, args []string) {
-	target, _ := cmd.Flags().GetString("target")
 
-	pentestService := services.NewPentestService("config.yml")
-	pentestService.RunScan(target)
+	target, _ := cmd.Flags().GetString("target")
+	pentestService := services.NewPentestService("config.yaml")
+	pentestService.RunAllTools(target)
 }
