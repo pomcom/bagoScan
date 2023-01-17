@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"fmt"
+
 	"github.com/pomcom/bagoScan/pkg/services"
 	"github.com/spf13/cobra"
 )
@@ -16,7 +18,9 @@ var (
 
 func startScan(cmd *cobra.Command, args []string) {
 
-	target, _ := cmd.Flags().GetString("target")
+	targets, _ := cmd.Flags().GetStringSlice("target")
+	fmt.Println("Targets:", targets)
 	pentestService := services.NewTestRunnerService("config.yaml")
-	pentestService.RunAllTools(target)
+	pentestService.RunAllTools(targets)
+
 }

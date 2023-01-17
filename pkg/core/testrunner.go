@@ -17,22 +17,31 @@ type TestRunner struct {
 	ToolMap map[string]tools.Tool
 }
 
-func (runner TestRunner) Run(target string) []Output {
+// tried to limit the number of go routines for performance handling
+// https://granulate.io/blog/deep-dive-into-golang-performance/
+func (runner TestRunner) Run(targets []string) []Output {
 	var wg sync.WaitGroup
-	wg.Add(len(runner.ToolMap))
-	outputs := make([]Output, 0)
+	var outputs []Output
+	//limit routines
+	semaphore := make(chan struct{}, 10)
 
-	for toolName := range runner.ToolMap {
-		go func(toolName string) {
-			defer wg.Done()
-			tool := runner.ToolMap[toolName]
-			result, err := tool.Execute(target)
-			if err != nil {
-				fmt.Println("Error in runner:", err)
-				return
-			}
-			outputs = append(outputs, Output{ToolName: toolName, Result: result})
-		}(toolName)
+	for _, target := range targets {
+		for toolName := range runner.ToolMap {
+			semaphore <- struct{}{}
+			wg.Add(1)
+			go func(toolName, target string) {
+				defer wg.Done()
+
+				defer func() { <-semaphore }()
+				tool := runner.ToolMap[toolName]
+				result, err := tool.Execute(target)
+				if err != nil {
+					fmt.Println("Error in runner:", err)
+					return
+				}
+				outputs = append(outputs, Output{ToolName: toolName, Result: result, Target: target})
+			}(toolName, target)
+		}
 	}
 	wg.Wait()
 	return outputs

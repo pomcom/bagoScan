@@ -14,16 +14,17 @@ type TestRunnerService struct {
 	fileHandler   core.Filehandler
 }
 
-func (service TestRunnerService) RunAllTools(target string) error {
+func (service TestRunnerService) RunAllTools(targets []string) error {
 	config, err := service.configHandler.ReadConfig()
 	if err != nil {
 		return err
 	}
-	service.runner = core.NewTestRunner(config.ToolMap)
-	outputs := service.runner.Run(target)
+
+	runner := core.NewTestRunner(config.ToolMap)
+	outputs := runner.Run(targets)
 
 	for _, output := range outputs {
-		fileName := output.ToolName + "-" + target + "-output.txt"
+		fileName := output.ToolName + "-" + output.Target + "-output.txt"
 		err := service.fileHandler.WriteToFile(fileName, output.Result)
 		if err != nil {
 			return err
@@ -57,8 +58,8 @@ func (service TestRunnerService) RunSingleTool(toolName string, target string) e
 	}
 	// create a new TestRunner with only the specified tool
 	singleToolMap := map[string]tools.Tool{toolName: config.ToolMap[toolName]}
-	runner := utils.NewTestRunner(singleToolMap)
-	outputs := runner.Run(target)
+	runner := core.NewTestRunner(singleToolMap)
+	outputs := runner.Run([]string{target})
 	for _, output := range outputs {
 		fileName := output.ToolName + "-" + target + "-output.txt"
 		err := service.fileHandler.WriteToFile(fileName, output.Result)

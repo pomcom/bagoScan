@@ -17,6 +17,7 @@ type TestRunner struct {
 	ToolMap map[string]tools.Tool
 }
 
+// TODO Could later be efficientto use  goroutine pool to limit number of concurrent routines
 func (runner TestRunner) Run(target string) []Output {
 	var wg sync.WaitGroup
 	wg.Add(len(runner.ToolMap))

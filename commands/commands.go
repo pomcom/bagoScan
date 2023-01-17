@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var target string
+var target []string
 
 var (
 	rootCmd = &cobra.Command{
@@ -17,14 +17,15 @@ var (
 )
 
 func init() {
-	scan.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	scan.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+
 	scan.MarkFlagRequired("target")
 	rootCmd.AddCommand(scan)
 
-	runNmap.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runNmap.MarkFlagRequired("target")
 
-	runTestssl.Flags().StringVarP(&target, "target", "t", "", "The target to scan")
+	runTestssl.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runTestssl.MarkFlagRequired("target")
 
 	rootCmd.AddCommand(runNmap)
