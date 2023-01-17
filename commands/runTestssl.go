@@ -10,13 +10,13 @@ var (
 		Use:   "testssl",
 		Short: "Runs only testssl scan on target",
 		Long:  `Runs an default testssl scan against the target. Uses the provided flags from config.yml, if present. Else default flags will be used.`,
-		Run:   startNmap,
+		Run:   startTestssl,
 	}
 )
 
 func startTestssl(cmd *cobra.Command, args []string) {
 
 	target, _ := cmd.Flags().GetString("target")
-	pentestService := services.NewPentestService("config.yaml")
+	pentestService := services.NewTestRunnerService("config.yaml")
 	pentestService.RunSingleTool("testssl", target)
 }

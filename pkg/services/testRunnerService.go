@@ -7,13 +7,13 @@ import (
 	"github.com/spf13/viper"
 )
 
-type PentestService struct {
+type TestRunnerService struct {
 	configHandler config.ConfigHandler
 	runner        utils.TestRunner
 	fileHandler   utils.Filehandler
 }
 
-func (service PentestService) RunAllTools(target string) error {
+func (service TestRunnerService) RunAllTools(target string) error {
 	config, err := service.configHandler.ReadConfig()
 	if err != nil {
 		return err
@@ -31,7 +31,7 @@ func (service PentestService) RunAllTools(target string) error {
 	return nil
 }
 
-func (service PentestService) RunSingleTool(toolName string, target string) error {
+func (service TestRunnerService) RunSingleTool(toolName string, target string) error {
 	config, err := service.configHandler.ReadConfig()
 	if err != nil {
 		// check if file doesn't exist
@@ -68,12 +68,12 @@ func (service PentestService) RunSingleTool(toolName string, target string) erro
 	return nil
 }
 
-func NewPentestService(configPath string) PentestService {
+func NewTestRunnerService(configPath string) TestRunnerService {
 	configHandler := config.NewConfigHandler(configPath)
 	config, err := configHandler.ReadConfig()
 	if err != nil {
 		panic(err)
 	}
 	fileHandler := utils.NewFilehandler("")
-	return PentestService{configHandler: configHandler, fileHandler: fileHandler, runner: utils.NewTestRunner(config.ToolMap)}
+	return TestRunnerService{configHandler: configHandler, fileHandler: fileHandler, runner: utils.NewTestRunner(config.ToolMap)}
 }
