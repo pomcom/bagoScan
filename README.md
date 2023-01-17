@@ -58,7 +58,7 @@ Once you've done this, you can add the new tool to the `configHandler` in the `u
 ## Configuration
 
 You can configure `bagoScan` by providing a configuration file in `yaml` format.
-Default path for the `config.yml` is the apps root directory.
+Default path for the `config.yaml` is the apps root directory.
 Todo: Pass config file via `-c` flag.
 
 Example `config.yml`
