@@ -23,7 +23,7 @@ func (runner TestRunner) Run(targets []string) []Output {
 	var wg sync.WaitGroup
 	var outputs []Output
 	//limit routines
-	semaphore := make(chan struct{}, 10)
+	semaphore := make(chan struct{}, 150)
 
 	for _, target := range targets {
 		for toolName := range runner.ToolMap {
