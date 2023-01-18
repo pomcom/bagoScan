@@ -16,7 +16,7 @@ var (
 
 func startTestssl(cmd *cobra.Command, args []string) {
 
-	target, _ := cmd.Flags().GetString("target")
+	target, _ := cmd.Flags().GetStringSlice("target")
 	pentestService := services.NewTestRunnerService("config.yaml")
 	pentestService.RunSingleTool("testssl", target)
 }
