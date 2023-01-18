@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/pomcom/bagoScan/pkg/tools"
+	"github.com/pomcom/bagoScan/pkg/utils/monitoring"
 )
 
 type Output struct {
@@ -32,10 +33,16 @@ func (runner TestRunner) Run(targets []string) []Output {
 		for toolName := range runner.ToolMap {
 			semaphore <- struct{}{}
 			wg.Add(1)
-			go func(toolName, target string) {
-				defer wg.Done()
 
+			monitoring.IncrementGoroutineCount("Run")
+
+			go func(toolName, target string) {
+
+				defer wg.Done()
 				defer func() { <-semaphore }()
+
+				// monitoring.DecrementGoroutineCount("Run")
+
 				tool := runner.ToolMap[toolName]
 				result, err := tool.Execute(target)
 				if err != nil {
@@ -47,6 +54,7 @@ func (runner TestRunner) Run(targets []string) []Output {
 		}
 	}
 	wg.Wait()
+	monitoring.DecrementGoroutineCount("Run")
 	return outputs
 }
 

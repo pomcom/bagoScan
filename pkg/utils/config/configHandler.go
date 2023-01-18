@@ -50,7 +50,7 @@ var defaultToolFlags = map[string]struct {
 	name  string
 }{
 	"nmap":    {[]string{"-T4", "-A"}, "nmap"},
-	"testssl": {[]string{"--json"}, "testssl"},
+	"testssl": {[]string{"--hints"}, "testssl"},
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
