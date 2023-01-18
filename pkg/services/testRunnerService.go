@@ -3,7 +3,6 @@ package services
 import (
 	"github.com/pomcom/bagoScan/pkg/core"
 	"github.com/pomcom/bagoScan/pkg/tools"
-	"github.com/pomcom/bagoScan/pkg/utils"
 	"github.com/pomcom/bagoScan/pkg/utils/config"
 	"github.com/spf13/viper"
 )
@@ -33,38 +32,42 @@ func (service TestRunnerService) RunAllTools(targets []string) error {
 	return nil
 }
 
-func (service TestRunnerService) RunSingleTool(toolName string, target string) error {
+func (service TestRunnerService) RunSingleTool(toolName string, targets []string) error {
 	config, err := service.configHandler.ReadConfig()
 	if err != nil {
 		// check if file doesn't exist
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			tool, err := service.configHandler.ReadSingleToolConfig(toolName)
-			if err != nil {
-				return err
-			}
-			singleToolMap := map[string]tools.Tool{toolName: tool}
-			runner := utils.NewTestRunner(singleToolMap)
-			outputs := runner.Run(target)
-			for _, output := range outputs {
-				fileName := output.ToolName + "-" + target + "-output.txt"
-				err := service.fileHandler.WriteToFile(fileName, output.Result)
+			for _, target := range targets {
+				tool, err := service.configHandler.ReadSingleToolConfig(toolName)
 				if err != nil {
 					return err
 				}
+				singleToolMap := map[string]tools.Tool{toolName: tool}
+				runner := core.NewTestRunner(singleToolMap)
+				outputs := runner.Run([]string{target})
+				for _, output := range outputs {
+					fileName := output.ToolName + "-" + target + "-output.txt"
+					err := service.fileHandler.WriteToFile(fileName, output.Result)
+					if err != nil {
+						return err
+					}
+				}
+				return nil
 			}
-			return nil
 		}
 		return err
 	}
 	// create a new TestRunner with only the specified tool
-	singleToolMap := map[string]tools.Tool{toolName: config.ToolMap[toolName]}
-	runner := core.NewTestRunner(singleToolMap)
-	outputs := runner.Run([]string{target})
-	for _, output := range outputs {
-		fileName := output.ToolName + "-" + target + "-output.txt"
-		err := service.fileHandler.WriteToFile(fileName, output.Result)
-		if err != nil {
-			return err
+	for _, target := range targets {
+		singleToolMap := map[string]tools.Tool{toolName: config.ToolMap[toolName]}
+		runner := core.NewTestRunner(singleToolMap)
+		outputs := runner.Run([]string{target})
+		for _, output := range outputs {
+			fileName := output.ToolName + "-" + target + "-output.txt"
+			err := service.fileHandler.WriteToFile(fileName, output.Result)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
