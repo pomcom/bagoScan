@@ -1,0 +1,3 @@
+www.pomcom.digital
+www.example.com
+scanme.nmap.org

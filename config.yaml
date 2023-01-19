@@ -1,5 +1,7 @@
 tools:
   - nmap
+  - testssl
 
-nmap:    
-  - -p-  
+nmap:
+  - -p- 
+
