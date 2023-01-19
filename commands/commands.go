@@ -5,6 +5,7 @@ import (
 )
 
 var target []string
+var targetFile string
 
 var (
 	rootCmd = &cobra.Command{
@@ -17,10 +18,12 @@ var (
 )
 
 func init() {
-	scan.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 
+	scan.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	scan.MarkFlagRequired("target")
-	rootCmd.AddCommand(scan)
+
+	scanFileTargets.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+	scanFileTargets.MarkFlagRequired("target-file")
 
 	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runNmap.MarkFlagRequired("target")
@@ -28,8 +31,11 @@ func init() {
 	runTestssl.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runTestssl.MarkFlagRequired("target")
 
+	rootCmd.AddCommand(scan)
+	rootCmd.AddCommand(scanFileTargets)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runTestssl)
+
 }
 
 func Execute() error {
