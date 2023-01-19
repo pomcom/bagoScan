@@ -20,19 +20,15 @@ var (
 func init() {
 
 	scan.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
-	scan.MarkFlagRequired("target")
-
-	scanFileTargets.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
-	scanFileTargets.MarkFlagRequired("target-file")
+	scan.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
 	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
-	runNmap.MarkFlagRequired("target")
+	runNmap.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
 	runTestssl.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
-	runTestssl.MarkFlagRequired("target")
+	runTestssl.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
 	rootCmd.AddCommand(scan)
-	rootCmd.AddCommand(scanFileTargets)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runTestssl)
 
