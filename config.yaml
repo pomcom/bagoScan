@@ -1,0 +1,7 @@
+tools:
+  - nmap
+  - testssl
+
+nmap:
+  - -p- 
+
