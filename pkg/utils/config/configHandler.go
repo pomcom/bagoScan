@@ -9,11 +9,11 @@ tool name <-> corresponding tool struct
 Decided to do this in the config, since its a good way to seperate concerns.
 maybe change struct literal syntax to NewTestssl() function, that needs to be implemented
 
+%TODO rework maybe..
+
 */
 
 import (
-	"fmt"
-
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
@@ -21,11 +21,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Config containts the configuration of the tools to be run
 type Config struct {
 	ToolNames []string
 	ToolMap   map[string]tools.Tool
 }
 
+// ConfigHandler reads and parses the config file
 type ConfigHandler struct {
 	viper    *viper.Viper
 	config   Config
@@ -56,25 +58,28 @@ var defaultToolFlags = map[string]struct {
 func NewConfigHandler(filepath string) ConfigHandler {
 	v := viper.New()
 	v.SetConfigFile(filepath)
-	v.ReadInConfig()
+
+	if err := v.ReadInConfig(); err != nil {
+		utils.Logger.Info("No config file provided - using default settings")
+	} else {
+		utils.Logger.Info("Using provided configuration file")
+	}
+
 	return ConfigHandler{
 		viper:    v,
 		filepath: filepath,
 	}
 }
 
-func (configHandler ConfigHandler) ReadConfig() (Config, error) {
+// Returns an empty struct if no file is provided
+func (configHandler ConfigHandler) ReadConfig() Config {
 
-	configHandler.viper.SetConfigFile(configHandler.filepath)
-
+	// checking for error to use own logger and not vipers build in logging
 	if err := configHandler.viper.ReadInConfig(); err != nil {
-		// TODO
-		// utils.Logger.Info("No config file provided - using default tools")
-		return Config{ToolMap: defaultToolMap}, nil
+		return Config{ToolMap: defaultToolMap}
 	}
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
-	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
 	toolFlags := make(map[string][]string)
@@ -84,7 +89,7 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 		factory, ok := toolFactories[t]
 		if !ok {
 			utils.Logger.Warn("Tool not found - Check config.yml for typos. Has a new tool been implemented and added in the configHandler?")
-			return Config{}, fmt.Errorf("tool not found: %s", t)
+			return Config{}
 		}
 		toolFlags[t] = configHandler.viper.GetStringSlice(t)
 		tool := factory(toolFlags[t])
@@ -95,18 +100,5 @@ func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 		ToolNames: toolNames,
 		ToolMap:   toolMap,
 	}
-	return configHandler.config, nil
-}
-
-func (configHandler ConfigHandler) ReadSingleToolConfig(toolName string) (tools.Tool, error) {
-	defaultFlag, ok := defaultToolFlags[toolName]
-	if !ok {
-		return nil, fmt.Errorf("tool not supported: %s", toolName)
-	}
-	factory, ok := defaultToolFactories[toolName]
-	if !ok {
-		return nil, fmt.Errorf("tool not found: %s", toolName)
-	}
-	tool := factory(defaultFlag.flags)
-	return tool, nil
+	return configHandler.config
 }

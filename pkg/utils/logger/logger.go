@@ -7,6 +7,7 @@ Probably possible to use zapcore.CapitalColorLevelEncoder for the console
 and zapcore.LowercaseLevelEncoder for file output.
 Would also be better to set the JSON format when building the encoder.
 
+Full Command log: use tool field instead of cmd args?
 Only part where the native go logger (for example: `log.Fatalf()` should be used is in this part.
 Use `utils.Logger` whenever possible:
 

@@ -20,3 +20,5 @@ bagoScan
 # ignore scan Output
 /output/raw/
 /output/logs/
+
+config.yaml

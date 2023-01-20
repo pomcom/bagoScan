@@ -30,6 +30,6 @@ func startScan(cmd *cobra.Command, args []string) {
 
 	utils.Logger.Info("targets", zap.String("target", strings.Join(target, ",")))
 
-	pentestService := services.NewTestRunnerService("config.yaml")
-	pentestService.RunAllTools(target)
+	testRunnerService := services.NewTestRunnerService("config.yaml")
+	testRunnerService.RunAllTools(target)
 }
