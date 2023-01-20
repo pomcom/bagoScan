@@ -65,11 +65,11 @@ func NewConfigHandler(filepath string) ConfigHandler {
 
 func (configHandler ConfigHandler) ReadConfig() (Config, error) {
 
-	configHandler.viper.SetConfigFile(configHandler.filepath)
+	// configHandler.viper.SetConfigFile(configHandler.filepath)
 
 	if err := configHandler.viper.ReadInConfig(); err != nil {
 		// TODO
-		// utils.Logger.Info("No config file provided - using default tools")
+		utils.Logger.Info("No config file provided - using default tools")
 		return Config{ToolMap: defaultToolMap}, nil
 	}
 
