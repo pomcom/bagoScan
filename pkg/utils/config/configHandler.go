@@ -9,6 +9,8 @@ tool name <-> corresponding tool struct
 Decided to do this in the config, since its a good way to seperate concerns.
 maybe change struct literal syntax to NewTestssl() function, that needs to be implemented
 
+%TODO rework maybe..
+
 */
 
 import (
@@ -17,14 +19,15 @@ import (
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
+// Config containts the configuration of the tools to be run
 type Config struct {
 	ToolNames []string
 	ToolMap   map[string]tools.Tool
 }
 
+// ConfigHandler reads and parses the config file
 type ConfigHandler struct {
 	viper    *viper.Viper
 	config   Config
@@ -57,7 +60,7 @@ func NewConfigHandler(filepath string) ConfigHandler {
 	v.SetConfigFile(filepath)
 
 	if err := v.ReadInConfig(); err != nil {
-		utils.Logger.Info("No config file provided - using default tools")
+		utils.Logger.Info("No config file provided - using default settings")
 	} else {
 		utils.Logger.Info("Using provided configuration file")
 	}
@@ -68,17 +71,15 @@ func NewConfigHandler(filepath string) ConfigHandler {
 	}
 }
 
-// returns an empty struct if no file is provided
+// Returns an empty struct if no file is provided
 func (configHandler ConfigHandler) ReadConfig() Config {
 
 	// checking for error to use own logger and not vipers build in logging
 	if err := configHandler.viper.ReadInConfig(); err != nil {
-		// utils.Logger.Info("No config file provided - using default tools")
 		return Config{ToolMap: defaultToolMap}
 	}
 
 	toolNames := configHandler.viper.GetStringSlice("tools")
-	utils.Logger.Info("Using provided configuration file")
 	toolFactories := defaultToolFactories
 
 	toolFlags := make(map[string][]string)
@@ -100,22 +101,4 @@ func (configHandler ConfigHandler) ReadConfig() Config {
 		ToolMap:   toolMap,
 	}
 	return configHandler.config
-}
-
-func (configHandler ConfigHandler) ReadSingleToolConfig(toolName string) tools.Tool {
-	factory, ok := defaultToolFactories[toolName]
-	if !ok {
-		utils.Logger.Warn("tool not found:", zap.String("toolName", toolName))
-		return nil
-	}
-	flags := configHandler.viper.GetStringSlice(toolName)
-	if flags == nil {
-		defaultFlag, ok := defaultToolFlags[toolName]
-		if !ok {
-			utils.Logger.Warn("tool not supported:", zap.String("toolName", toolName))
-			return nil
-		}
-		flags = defaultFlag.flags
-	}
-	return factory(flags)
 }
