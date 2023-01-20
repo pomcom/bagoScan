@@ -13,6 +13,7 @@ type TestRunnerService struct {
 	fileHandler   core.Filehandler
 }
 
+// Debug read config...
 func (service TestRunnerService) RunAllTools(targets []string) error {
 	config, err := service.configHandler.ReadConfig()
 	if err != nil {
@@ -45,6 +46,7 @@ func (service TestRunnerService) RunSingleTool(toolName string, targets []string
 				singleToolMap := map[string]tools.Tool{toolName: tool}
 				runner := core.NewTestRunner(singleToolMap)
 				outputs := runner.Run([]string{target})
+
 				for _, output := range outputs {
 					fileName := output.ToolName + "-" + target + "-output.txt"
 					err := service.fileHandler.WriteToFile(fileName, output.Result)
@@ -58,16 +60,15 @@ func (service TestRunnerService) RunSingleTool(toolName string, targets []string
 		return err
 	}
 	// create a new TestRunner with only the specified tool
-	for _, target := range targets {
-		singleToolMap := map[string]tools.Tool{toolName: config.ToolMap[toolName]}
-		runner := core.NewTestRunner(singleToolMap)
-		outputs := runner.Run([]string{target})
-		for _, output := range outputs {
-			fileName := output.ToolName + "-" + target + "-output.txt"
-			err := service.fileHandler.WriteToFile(fileName, output.Result)
-			if err != nil {
-				return err
-			}
+	singleToolMap := map[string]tools.Tool{toolName: config.ToolMap[toolName]}
+	runner := core.NewTestRunner(singleToolMap)
+	outputs := runner.Run(targets)
+
+	for _, output := range outputs {
+		fileName := output.ToolName + "-" + output.Target + "-output.txt"
+		err := service.fileHandler.WriteToFile(fileName, output.Result)
+		if err != nil {
+			return err
 		}
 	}
 	return nil
