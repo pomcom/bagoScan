@@ -18,7 +18,7 @@ type TestRunner struct {
 	ToolMap map[string]tools.Tool
 }
 
-// tried to limit the number of go routines for performance handling
+// limit the number of go routines for performance handling
 // https://granulate.io/blog/deep-dive-into-golang-performance/
 // currently waiting till function is finished, before it returns
 // could write output to filesystem in routins (bad design)
