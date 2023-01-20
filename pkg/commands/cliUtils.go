@@ -1,3 +1,4 @@
+// Package commands does something
 package commands
 
 // cli related utils, used in multiple commands
