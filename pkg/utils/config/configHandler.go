@@ -16,6 +16,7 @@ maybe change struct literal syntax to NewTestssl() function, that needs to be im
 import (
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
+	"github.com/pomcom/bagoScan/pkg/tools/nuclei"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/spf13/viper"
@@ -38,12 +39,14 @@ type ConfigHandler struct {
 var defaultToolFactories = map[string]func([]string) tools.Tool{
 	"nmap":    func(flags []string) tools.Tool { return nmap.NewNmap(flags, "nmap") },
 	"testssl": func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
+	"nuclei":  func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
 }
 
 // default tools that are executed when no config.yaml is provided
 var defaultToolMap = map[string]tools.Tool{
 	"nmap":    nmap.NewNmap(defaultToolFlags["nmap"].flags, defaultToolFlags["nmap"].name),
 	"testssl": testssl.NewTestssl(defaultToolFlags["testssl"].flags, defaultToolFlags["testssl"].name),
+	"nuclei":  nuclei.NewNuclei(defaultToolFlags["nuclei"].flags, defaultToolFlags["nuclei"].name),
 }
 
 // default flags that are used when no custom flags are provided in the config.yaml
