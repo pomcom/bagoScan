@@ -25,11 +25,15 @@ func init() {
 	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runNmap.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runSqlMap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runSqlMap.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	runTestssl.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runTestssl.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
+	rootCmd.AddCommand(runSqlMap)
 	rootCmd.AddCommand(runTestssl)
 
 }

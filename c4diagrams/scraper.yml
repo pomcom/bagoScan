@@ -1,0 +1,8 @@
+configuration:
+  pkgs:
+    - "github.com"
+
+rules:
+  - name_regexp: ".*"
+    pkg_regexps:
+      - ".*"
