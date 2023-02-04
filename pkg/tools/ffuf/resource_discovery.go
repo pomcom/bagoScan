@@ -32,7 +32,12 @@ func runFfuf(target string, r ResourceDiscovery) (string, error) {
 
 	utils.ToolStartLog(r.name, target)
 
-	cmd := exec.Command("ffuf", append(r.flags, "-u", "http://"+target+"/FUZZ")...)
+	allFlags := append(r.flags, "-u", "http://"+target+"/FUZZ")
+	cmd := exec.Command("ffuf", allFlags...)
+
+	// cmd := exec.Command("ffuf", append(r.flags, "-u", "http://"+target+"/FUZZ")...)
+
+	// cmd := exec.Command("/home/pomcom/go/bin/ffuf", "-w", "common.txt", "--recursion-depth", "3", "-u", "http://"+target+"/FUZZ")
 	cmd.Env = append(cmd.Env, "PATH=$PATH:/usr/local/bin")
 
 	println("running ffuf command:", cmd.String())

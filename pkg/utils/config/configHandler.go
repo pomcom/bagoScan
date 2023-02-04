@@ -66,8 +66,8 @@ var defaultToolFlags = map[string]struct {
 	"testssl": {[]string{"--hints"}, "testssl"},
 	"nuclei":  {[]string{"-u"}, "nuclei"},
 	// "sqlmap":              {[]string{"-u"}, "sqlmap"},
-	"resource_discovery": {[]string{"-w", "common.txt", "--recursion-depth 3"}, "resource_discovery"},
-	//❯ ffuf -w resources/common.txt -recursion-depth 3 -u  http://localhost:8080/FUZZ
+	"resource_discovery": {[]string{"-w", "common.txt", "--recursion-depth", "3"}, "resource_discovery"},
+	// cmd := exec.Command("/home/pomcom/go/bin/ffuf", "-w", "common.txt", "--recursion-depth", "3", "-u", "http://"+target+"/FUZZ")
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {
