@@ -17,9 +17,9 @@ import (
 	"io/ioutil"
 
 	"github.com/pomcom/bagoScan/pkg/tools"
+	"github.com/pomcom/bagoScan/pkg/tools/ffuf"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/nuclei"
-	"github.com/pomcom/bagoScan/pkg/tools/sqlmap"
 	"github.com/pomcom/bagoScan/pkg/tools/testssl"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/spf13/viper"
@@ -43,8 +43,9 @@ type ConfigHandler struct {
 var defaultToolFactories = map[string]func([]string) tools.Tool{
 	"nmap":    func(flags []string) tools.Tool { return nmap.NewNmap(flags, "nmap") },
 	"testssl": func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
-	"nuclei":  func(flags []string) tools.Tool { return testssl.NewTestssl(flags, "testssl") },
-	"sqlmap":  func(flags []string) tools.Tool { return sqlmap.NewSQLMap(flags, "sqlmap") },
+	"nuclei":  func(flags []string) tools.Tool { return nuclei.NewNuclei(flags, "testssl") },
+	// "sqlmap":              func(flags []string) tools.Tool { return sqlmap.NewSQLMap(flags, "sqlmap") },
+	"resource_discovery": func(flags []string) tools.Tool { return ffuf.NewResourceDiscovery(flags, "resource_discovery") },
 }
 
 // default tools that are executed when no config.yaml is provided
@@ -52,7 +53,8 @@ var defaultToolMap = map[string]tools.Tool{
 	"nmap":    nmap.NewNmap(defaultToolFlags["nmap"].flags, defaultToolFlags["nmap"].name),
 	"testssl": testssl.NewTestssl(defaultToolFlags["testssl"].flags, defaultToolFlags["testssl"].name),
 	"nuclei":  nuclei.NewNuclei(defaultToolFlags["nuclei"].flags, defaultToolFlags["nuclei"].name),
-	"sqlmap":  sqlmap.NewSQLMap(defaultToolFlags["sqlmap"].flags, defaultToolFlags["sqlmap"].name),
+	// "sqlmap":              sqlmap.NewSQLMap(defaultToolFlags["sqlmap"].flags, defaultToolFlags["sqlmap"].name),
+	"resource_discovery": ffuf.NewResourceDiscovery(defaultToolFlags["resource_discovery"].flags, defaultToolFlags["resource_discovery"].name),
 }
 
 // default flags that are used when no custom flags are provided in the config.yaml
@@ -63,7 +65,9 @@ var defaultToolFlags = map[string]struct {
 	"nmap":    {[]string{"-T4", "-A"}, "nmap"},
 	"testssl": {[]string{"--hints"}, "testssl"},
 	"nuclei":  {[]string{"-u"}, "nuclei"},
-	"sqlmap":  {[]string{"-u"}, "sqlmap"},
+	// "sqlmap":              {[]string{"-u"}, "sqlmap"},
+	"resource_discovery": {[]string{"-w", "common.txt", "--recursion-depth 3"}, "resource_discovery"},
+	//❯ ffuf -w resources/common.txt -recursion-depth 3 -u  http://localhost:8080/FUZZ
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {

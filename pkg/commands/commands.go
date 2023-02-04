@@ -31,10 +31,14 @@ func init() {
 	runTestssl.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runTestssl.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runFfufRessourceDiscovery.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runFfufRessourceDiscovery.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runSqlMap)
 	rootCmd.AddCommand(runTestssl)
+	rootCmd.AddCommand(runFfufRessourceDiscovery)
 
 }
 
