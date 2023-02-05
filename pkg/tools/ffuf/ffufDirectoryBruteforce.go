@@ -13,7 +13,7 @@ type ResourceDiscovery struct {
 }
 
 func (r ResourceDiscovery) Execute(target string) (string, error) {
-	output, err := runFfuf(target, r)
+	output, err := runDirBruteforce(target, r)
 	if err != nil {
 		return "", err
 	}
@@ -21,7 +21,7 @@ func (r ResourceDiscovery) Execute(target string) (string, error) {
 	return output, nil
 }
 
-func runFfuf(target string, r ResourceDiscovery) (string, error) {
+func runDirBruteforce(target string, r ResourceDiscovery) (string, error) {
 
 	_, err := exec.LookPath("ffuf")
 
@@ -32,13 +32,12 @@ func runFfuf(target string, r ResourceDiscovery) (string, error) {
 
 	utils.ToolStartLog(r.name, target)
 
-	allFlags := append(r.flags, "-u", "http://"+target+"/FUZZ")
+	allFlags := append(r.flags, "-u", "http://"+target+"/FUZZ", "-fs", "1987")
 	cmd := exec.Command("ffuf", allFlags...)
 
 	// cmd := exec.Command("ffuf", append(r.flags, "-u", "http://"+target+"/FUZZ")...)
-
 	// cmd := exec.Command("/home/pomcom/go/bin/ffuf", "-w", "common.txt", "--recursion-depth", "3", "-u", "http://"+target+"/FUZZ")
-	cmd.Env = append(cmd.Env, "PATH=$PATH:/usr/local/bin")
+	// cmd.Env = append(cmd.Env, "PATH=$PATH:/usr/local/bin")
 
 	println("running ffuf command:", cmd.String())
 

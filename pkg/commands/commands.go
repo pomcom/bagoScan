@@ -22,7 +22,7 @@ func init() {
 	scan.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	scan.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
-	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runNmap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to sca n")
 	runNmap.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
 	runSqlMap.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
@@ -34,11 +34,15 @@ func init() {
 	runFfufRessourceDiscovery.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runFfufRessourceDiscovery.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runFfufSqliApiTest.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runFfufSqliApiTest.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runSqlMap)
 	rootCmd.AddCommand(runTestssl)
 	rootCmd.AddCommand(runFfufRessourceDiscovery)
+	rootCmd.AddCommand(runFfufSqliApiTest)
 
 }
 
