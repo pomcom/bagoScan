@@ -301,6 +301,8 @@ People
 Press
 Privacy
 Products
+products/search
+/rest/products/search
 Program Files
 Projects
 Publications
@@ -3539,6 +3541,11 @@ resources
 respond
 responder
 rest
+rest/admin
+rest/user/whoami
+/rest/user/login
+rest/products/
+rest/products/search
 restaurants
 restore
 restored
@@ -4711,3 +4718,4 @@ zt
 ~user
 ~webmaster
 ~www
+/.well-known/security.txt
