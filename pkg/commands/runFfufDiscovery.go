@@ -11,9 +11,9 @@ import (
 
 var (
 	runFfufRessourceDiscovery = &cobra.Command{
-		Use:   "ffuf",
-		Short: "Runs ffuf resource  against target",
-		Long:  `Runs an default nmap scan against the target. Uses the provided flags from config.yml, if present. Else default flags will be used.`,
+		Use:   "ffufRessource",
+		Short: "Runs ffuf ressource discovery against target",
+		Long:  `Runs an default ressource discovery scan against the target. Uses the provided flags from config.yml, if present. Else default flags will be used.`,
 		Run:   startFfuf,
 	}
 )
