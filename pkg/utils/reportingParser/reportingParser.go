@@ -1,5 +1,7 @@
 package reportingparser
 
+//Still need work, just proof on concept for the protoype
+
 import (
 	"bufio"
 	"encoding/csv"
@@ -68,20 +70,36 @@ func ReportingParser() {
 	// hostRegex := regexp.MustCompile(`GET (.*?)/rest`)
 	sqlInjectionRegex := regexp.MustCompile(`do you want to exploit this SQL injection\? \[Y/n\] Y`)
 	outputRegex := regexp.MustCompile(`\[INFO\] retrieved: (.*?)\n`)
+	hostRegex := regexp.MustCompile(`(GET|POST) (http://.*?):(\d+)(.*)`)
 
 	// injectionRegex := regexp.MustCompile(`(\d+)\s.*\n.*(GET)\n.*(\w+-based.*)\n.*(\w+.*)\n`)
 
-	var host string
+	// var httpMethod string
+	var port string
+	var path string
 	var pluginOutput string
 	var sqlInjectionFound bool
 
 	scanner := bufio.NewScanner(outputFile)
 
+	// for scanner.Scan() {
+	// 	line := scanner.Text()
+	// 	if sqlInjectionRegex.MatchString(line) {
+	// 		sqlInjectionFound = true
+	// 		// host = hostRegex.FindStringSubmatch(line)[1]
+	// 	} else if sqlInjectionFound && outputRegex.MatchString(line) {
+	// 		pluginOutput = outputRegex.FindStringSubmatch(line)[1]
+	// 	}
+	// }
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		if sqlInjectionRegex.MatchString(line) {
 			sqlInjectionFound = true
-			// host = hostRegex.FindStringSubmatch(line)[1]
+		} else if match := hostRegex.FindStringSubmatch(line); len(match) > 0 {
+			// httpMethod = match[1]
+			path = match[2]
+			port = match[3]
 		} else if sqlInjectionFound && outputRegex.MatchString(line) {
 			pluginOutput = outputRegex.FindStringSubmatch(line)[1]
 		}
@@ -93,9 +111,9 @@ func ReportingParser() {
 		"",
 		"",
 		"High",
-		host,
+		path,
 		"HTTP",
-		"8080",
+		port,
 		"SQL Injection Vulnerability",
 		"A SQL injection vulnerability has been discovered in this application.",
 		"The application is vulnerable to SQL injection attacks, which can allow an attacker to execute arbitrary SQL commands on the underlying database. This can result in the theft of sensitive data, such as user credentials and other confidential information.",
