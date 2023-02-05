@@ -7,6 +7,7 @@ import (
 	"github.com/pomcom/bagoScan/pkg/tools"
 	"github.com/pomcom/bagoScan/pkg/utils/config"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
+	reportingparser "github.com/pomcom/bagoScan/pkg/utils/reportingParser"
 )
 
 type TestRunnerService struct {
@@ -34,6 +35,8 @@ func (service TestRunnerService) RunAllTools(targets []string) error {
 		outputFiles = append(outputFiles, fileName)
 	}
 
+	reportingparser.ReportingParser()
+
 	return nil
 }
 
@@ -60,6 +63,7 @@ func (service TestRunnerService) RunSingleTool(toolName string, targets []string
 	}
 
 	err := service.fileHandler.CombineFiles(outputFiles, "output/combined-output.txt")
+	reportingparser.ReportingParser()
 	if err != nil {
 		return err
 	}
