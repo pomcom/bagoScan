@@ -1,5 +1,6 @@
 package nmap
 
+// needs to be implemnted if use case for burp scan via api exists
 import (
 	"fmt"
 	"os/exec"

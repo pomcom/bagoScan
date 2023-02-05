@@ -17,6 +17,7 @@ import (
 	"io/ioutil"
 
 	"github.com/pomcom/bagoScan/pkg/tools"
+	"github.com/pomcom/bagoScan/pkg/tools/bugbounty"
 	"github.com/pomcom/bagoScan/pkg/tools/ffuf"
 	"github.com/pomcom/bagoScan/pkg/tools/nmap"
 	"github.com/pomcom/bagoScan/pkg/tools/nuclei"
@@ -49,6 +50,7 @@ var defaultToolFactories = map[string]func([]string) tools.Tool{
 	"resource_discovery": func(flags []string) tools.Tool { return ffuf.NewResourceDiscovery(flags, "resource_discovery") },
 	"ffufSqliApiTest":    func(flags []string) tools.Tool { return ffuf.NewSliApiTest(flags, "ffufSqliApiTest") },
 	"sqlMapApiTest":      func(flags []string) tools.Tool { return sqlmap.NewSQLMapApiTest(flags, "sqlMapApiTest") },
+	"sqliWaybackTest":    func(flags []string) tools.Tool { return bugbounty.NewSqlInjectionWayBackTest(flags, "sqliWaybackTest") },
 }
 
 // default tools that are executed when no config.yaml is provided
@@ -60,6 +62,7 @@ var defaultToolMap = map[string]tools.Tool{
 	"resource_discovery": ffuf.NewResourceDiscovery(defaultToolFlags["resource_discovery"].flags, defaultToolFlags["resource_discovery"].name),
 	"ffufSqliApiTest":    ffuf.NewSliApiTest(defaultToolFlags["ffufSqliApiTest"].flags, defaultToolFlags["ffufSqliApiTest"].name),
 	"sqlMapApiTest":      sqlmap.NewSQLMapApiTest(defaultToolFlags["sqlMapApiTest"].flags, defaultToolFlags["sqlMapApiTest"].name),
+	"sqliWaybackTest":    bugbounty.NewSqlInjectionWayBackTest(defaultToolFlags["sqliWaybackTest"].flags, defaultToolFlags["sqliWaybackTest"].name),
 }
 
 // default flags that are used when no custom flags are provided in the config.yaml
@@ -74,6 +77,7 @@ var defaultToolFlags = map[string]struct {
 	"resource_discovery": {[]string{"-w", "common.txt", "--recursion-depth", "3"}, "resource_discovery"},
 	"ffufSqliApiTest":    {[]string{"-w", "payloads/sqli.txt"}, "ffufSqliApiTest"},
 	"sqlMapApiTest":      {[]string{}, "sqlMapApiTest"},
+	"sqliWaybackTest":    {[]string{}, "sqliWaybackTest"},
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {

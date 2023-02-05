@@ -40,6 +40,9 @@ func init() {
 	runSqlMapApi.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runSqlMapApi.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runSqliWaybackTest.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runSqliWaybackTest.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runSqlMap)
@@ -47,6 +50,7 @@ func init() {
 	rootCmd.AddCommand(runFfufRessourceDiscovery)
 	rootCmd.AddCommand(runFfufSqliApiTest)
 	rootCmd.AddCommand(runSqlMapApi)
+	rootCmd.AddCommand(runSqliWaybackTest)
 
 }
 
