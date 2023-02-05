@@ -37,12 +37,16 @@ func init() {
 	runFfufSqliApiTest.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runFfufSqliApiTest.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runSqlMapApi.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runSqlMapApi.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runSqlMap)
 	rootCmd.AddCommand(runTestssl)
 	rootCmd.AddCommand(runFfufRessourceDiscovery)
 	rootCmd.AddCommand(runFfufSqliApiTest)
+	rootCmd.AddCommand(runSqlMapApi)
 
 }
 
