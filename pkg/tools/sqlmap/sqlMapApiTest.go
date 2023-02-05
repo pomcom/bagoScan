@@ -43,6 +43,7 @@ func runSQLMapApiTest(target string, s SQLMapApiTest) (string, error) {
 
 	utils.ToolStartLog(s.name, target)
 
+	//todo read in inject point from fuzzin phase
 	allFlags := append(s.flags, "-u", "http://"+target+"/rest/products/search?q=", "-D", "localhost", "--tables", "--level=5", "--batch")
 	cmd := exec.Command("sqlmap", allFlags...)
 
