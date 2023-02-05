@@ -28,11 +28,11 @@ func NewSQLMapApiTest(options []string, name string) SQLMapApiTest {
 
 func runSQLMapApiTest(target string, s SQLMapApiTest) (string, error) {
 
-	// _, err := exec.LookPath(s.name)
-	// if err != nil {
-	// 	utils.ToolFailed(s.name, target, err)
-	// 	return "", fmt.Errorf("sqlmap not found")
-	// }
+	_, err := exec.LookPath("sqlmap")
+	if err != nil {
+		utils.ToolFailed(s.name, target, err)
+		return "", fmt.Errorf("sqlmap not found")
+	}
 
 	authToken, err := ioutil.ReadFile("auth_token.txt")
 	if err != nil {
