@@ -28,8 +28,8 @@ func runSqliApiTest(target string, r FfufSqliApiTest) (string, error) {
 		return "", fmt.Errorf("ffuf not found")
 	}
 	utils.ToolStartLog(r.name, target)
-
-	allFlags := append(r.flags, "-u", "http://"+target+"/rest/user/login", "-X", "POST", "-H", "Content-Type: application/json", "-d", `{"email":"FUZZ","password":"testtest"}`, "-ac", "-x", "http://localhost:9091")
+	// path hard coded for test case, usually gets provided by ffuf ressource discovery
+	allFlags := append(r.flags, "-u", "http://"+target+"/rest/user/login", "-X", "POST", "-H", "Content-Type: application/json", "-d", `{"email":"FUZZ","password":"testtest"}`, "-ac", "-mc", "200", "-x", "http://localhost:9091")
 
 	cmd := exec.Command("ffuf", allFlags...)
 	println("running ffuf command:", cmd.String())
