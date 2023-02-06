@@ -53,7 +53,9 @@ func (runner TestRunner) Run(targets []string) []Output {
 			}(toolName, target)
 		}
 	}
+
 	wg.Wait()
+
 	monitoring.DecrementGoroutineCount("Run")
 	return outputs
 }

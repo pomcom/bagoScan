@@ -6,20 +6,12 @@ import (
 	"os"
 	"runtime/trace"
 
-	"github.com/pomcom/bagoScan/commands"
+	"github.com/pomcom/bagoScan/pkg/commands"
 	utils "github.com/pomcom/bagoScan/pkg/utils/logger"
 	"github.com/pomcom/bagoScan/pkg/utils/monitoring"
 )
 
 func main() {
-
-	// defer profile.Start().Stop()
-
-	// go func() {
-	// 	log.Println(http.ListenAndServe("localhost:6060", nil))
-	// }()
-	//
-	// time.Sleep(5 * time.Second)
 
 	file, err := os.Create("trace.out")
 	if err != nil {
