@@ -1,7 +1,7 @@
 # bagoScan
 
-`bagoscan` is a simple tool to run multiple security scans in parallel on a given target.
-It currently supports `testssl` and `nmap` scans, but can easily be extended 
+`bagoscan` is a prototype tool to run multiple security scans in parallel on a given target.
+It currently supports `testssl` `nmap` `ffuf` `nuclei` `sqlmap` and other scans, and can easily be extended 
 to include other tool.
 It is written in Go as part of a bachelor's degree project at HTW Berlin.
 
