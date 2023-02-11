@@ -43,6 +43,9 @@ func init() {
 	runSqliWaybackTest.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
 	runSqliWaybackTest.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
 
+	runDalfoxGauTest.Flags().StringSliceVarP(&target, "target", "t", []string{}, "The target to scan")
+	runDalfoxGauTest.Flags().StringVarP(&targetFile, "target-file", "f", "", "File containing the targets to scan")
+
 	rootCmd.AddCommand(scan)
 	rootCmd.AddCommand(runNmap)
 	rootCmd.AddCommand(runSqlMap)
@@ -51,6 +54,7 @@ func init() {
 	rootCmd.AddCommand(runFfufSqliApiTest)
 	rootCmd.AddCommand(runSqlMapApi)
 	rootCmd.AddCommand(runSqliWaybackTest)
+	rootCmd.AddCommand(runDalfoxGauTest)
 
 }
 

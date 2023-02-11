@@ -1,7 +1,7 @@
 package reportingparser
 
-//Still need work, just proof on concept for the protoype
-// should use structs for the data and adjust parsing
+//Still needs adjustment, just proof on concept for the protoype
+// should prob. use structs for the data and adjust parsing
 
 import (
 	"bufio"
@@ -67,14 +67,10 @@ func ReportingParser() {
 	}
 
 	//Regex patterns sqlmap - check for valid SQL injection
-
-	// hostRegex := regexp.MustCompile(`GET (.*?)/rest`)
 	ffufSqliApiRegex := regexp.MustCompile(`a' or 1=1--\s+\[Status: (\d+), Size: (\d+), Words: (\d+), Lines: (\d+), Duration: (\d+)ms\]`)
 	sqlInjectionRegex := regexp.MustCompile(`do you want to exploit this SQL injection\? \[Y/n\] Y`)
 	outputRegex := regexp.MustCompile(`\[INFO\] retrieved: (.*?)\n`)
 	hostRegex := regexp.MustCompile(`(GET|POST) (http://.*?):(\d+)(.*)`)
-
-	// injectionRegex := regexp.MustCompile(`(\d+)\s.*\n.*(GET)\n.*(\w+-based.*)\n.*(\w+.*)\n`)
 
 	// var httpMethod string
 	var port string
@@ -102,6 +98,9 @@ func ReportingParser() {
 		}
 
 	}
+
+	print(ffufSqliFound)
+	print(sqlInjectionFound)
 
 	// Write the SQL injection information to the CSV file
 	dataSqli := []string{
