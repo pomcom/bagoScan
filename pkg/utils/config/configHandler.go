@@ -51,6 +51,7 @@ var defaultToolFactories = map[string]func([]string) tools.Tool{
 	"ffufSqliApiTest":    func(flags []string) tools.Tool { return ffuf.NewSliApiTest(flags, "ffufSqliApiTest") },
 	"sqlMapApiTest":      func(flags []string) tools.Tool { return sqlmap.NewSQLMapApiTest(flags, "sqlMapApiTest") },
 	"sqliWaybackTest":    func(flags []string) tools.Tool { return bugbounty.NewSqlInjectionWayBackTest(flags, "sqliWaybackTest") },
+	"dalfoxGauTest":      func(flags []string) tools.Tool { return bugbounty.NewDalfoxGauTest(flags, "dalfoxGauTest") },
 }
 
 // default tools that are executed when no config.yaml is provided
@@ -63,6 +64,7 @@ var defaultToolMap = map[string]tools.Tool{
 	"ffufSqliApiTest":    ffuf.NewSliApiTest(defaultToolFlags["ffufSqliApiTest"].flags, defaultToolFlags["ffufSqliApiTest"].name),
 	"sqlMapApiTest":      sqlmap.NewSQLMapApiTest(defaultToolFlags["sqlMapApiTest"].flags, defaultToolFlags["sqlMapApiTest"].name),
 	"sqliWaybackTest":    bugbounty.NewSqlInjectionWayBackTest(defaultToolFlags["sqliWaybackTest"].flags, defaultToolFlags["sqliWaybackTest"].name),
+	"dalfoxGauTest":      bugbounty.NewDalfoxGauTest(defaultToolFlags["dalfoxGauTest"].flags, defaultToolFlags["dalfoxGauTest"].name),
 }
 
 // default flags that are used when no custom flags are provided in the config.yaml
@@ -78,6 +80,7 @@ var defaultToolFlags = map[string]struct {
 	"ffufSqliApiTest":    {[]string{"-w", "payloads/sqli.txt"}, "ffufSqliApiTest"},
 	"sqlMapApiTest":      {[]string{}, "sqlMapApiTest"},
 	"sqliWaybackTest":    {[]string{}, "sqliWaybackTest"},
+	"dalfoxGauTest":      {[]string{}, "dalfoxGauTest"},
 }
 
 func NewConfigHandler(filepath string) ConfigHandler {

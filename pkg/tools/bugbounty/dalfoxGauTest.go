@@ -28,9 +28,10 @@ func NewDalfoxGauTest(flags []string, name string) DalfoxGauTest {
 
 func runDalfoxGauTest(target string, s DalfoxGauTest) (string, error) {
 
-	utils.ToolStartLog("XSS using  dalfox and gau", target)
+	utils.ToolStartLog("XSS Test using  dalfox and gau", target)
 
-	cmd := exec.Command("sh")
+	cmd := exec.Command("sh", "-c", "assetfinder "+target+" | gau | dalfox pipe")
+	// cmd := exec.Command("assetfinder", target, "|", "gau", "|", "dalfox", "pipe")
 	//assetfinder testphp.vulnweb.com | gau | dalfox pipe
 	utils.ExecutedCommand(cmd)
 	println("running ffuf command:", cmd.String())
@@ -41,7 +42,7 @@ func runDalfoxGauTest(target string, s DalfoxGauTest) (string, error) {
 		return "", err
 	}
 
-	utils.ToolFinishedLog("Sql Injection via Waybackurls", target)
+	utils.ToolFinishedLog("XSS Test using dalfox", target)
 
 	return string(out), nil
 }
